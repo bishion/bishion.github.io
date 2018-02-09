@@ -2,12 +2,12 @@
 #   Main Configs   #
 # ---------------- #
 baseurl:
-url: http://mazhuang.org
+url: http://bishion.github.io
 date_format: "ordinal"
-title: 码志
-subtitle: "打码改变人生"
-description: "马壮的个人博客"
-keywords: 码志, Zhuang Ma, mzlogin, mazhuang
+title: Bishion
+subtitle: "每天进步一点点"
+description: "郭芳碧的个人博客"
+keywords: Bishion bishion GuoFangbi
 timezone: Asia/Shanghai
 encoding: "utf-8"
 side_bar_repo_limit: 5
@@ -15,12 +15,12 @@ side_bar_repo_limit: 5
 # ---------------- #
 #      Author      #
 # ---------------- #
-author: Zhuang Ma
-organization: zkh360.com
-organization_url: http://www.zkh360.com
-github_username: mzlogin
-location: Wuhan, China
-email: chumpma@gmail.com
+author: GuoFangbi
+organization: bishion.github.io
+organization_url: http://bishion.github.io
+github_username: bishion
+location: Shanghai, China
+email: bishion@163.com
 
 # ---------------- #
 #    Navigation    #
@@ -77,7 +77,7 @@ collections:
         output: true
         permalink: /wiki/:path/
 
-repository: mzlogin/mzlogin.github.io
+repository: bishion/bishion.github.io
 
 # ---------------- #
 #      Comments    #
@@ -88,20 +88,20 @@ comments_provider: gitalk
 # !!!Important!!! Please modify infos below to yours
 # https://disqus.com
 disqus:
-    username: 
+    username:
 # https://imsun.net/posts/gitment-introduction/
 gitment:
-    owner: mzlogin
+    owner: bishion
     repo: blog-comments
     oauth:
-        client_id: d2e1cbbd298958076462
-        client_secret: b42a4178e5fd4a7cf63189ef4b1453b05c375709
+        client_id: 547cb67abc5f2ca4abea
+        client_secret: 5124e3cceee4e06c0c992ef992bc0ef59b57d3e5
 # https://github.com/gitalk/gitalk#install
 gitalk:
-    owner: mzlogin
+    owner: bishion
     repo: blog-comments
-    clientID: d2e1cbbd298958076462
-    clientSecret: b42a4178e5fd4a7cf63189ef4b1453b05c375709
+    clientID: 547cb67abc5f2ca4abea
+    clientSecret: 5124e3cceee4e06c0c992ef992bc0ef59b57d3e5
 # 在使用其它评论组件时可点击显示 Disqus
 lazy_load_disqus : false
 
@@ -109,4 +109,4 @@ lazy_load_disqus : false
 #    Analytics     #
 # ---------------- #
 google:
-    analytics_id: UA-80669434-1
+    analytics_id: UA-113874603-1
