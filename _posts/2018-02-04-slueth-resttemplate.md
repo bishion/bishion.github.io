@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Sleuth 如何支持restTemplate
-categories: Blog
+categories: 微服务
 description: Sleuth 如何支持restTemplate
 keywords: 微服务，sleuth
 ---

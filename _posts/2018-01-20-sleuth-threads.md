@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Sleuth 信息在线程之间的传递
-categories: Blog
+categories: 微服务
 description: Sleuth 中信息如何在线程之间传递
 keywords: 微服务，sleuth
 ---
