@@ -3,7 +3,7 @@ layout: post
 title: 单例不简单
 categories: Blog
 description: java 单例的总结
-keywords: 设计模式 单例 java
+keywords: 设计模式, 单例, java
 ---
 # 需求
 用java实现一个单例模式
