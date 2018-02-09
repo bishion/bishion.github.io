@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 单例不简单
-categories: Blog
+categories: 设计模式
 description: java 单例的总结
 keywords: 设计模式, 单例, java
 ---
