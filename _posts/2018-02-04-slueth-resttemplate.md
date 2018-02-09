@@ -8,7 +8,7 @@ keywords: 微服务，sleuth
 # 问题
 《微服务下基于sleuth的参数透传功能探索》这篇文章遗留了几个问题：
 
->## 留下的坑
+> ## 留下的坑
 > 1. Sleuth通过LazyTraceExecutor解决多线程下的问题，但是它并没有解决给手动创建的Thread传递信息的问题
 > 2. 有机会试试java字节码替换怎么操作
 > 3. Sleuth如何重写RestTemplate的
