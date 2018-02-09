@@ -2,7 +2,7 @@
 #   Main Configs   #
 # ---------------- #
 baseurl:
-url: http://bishion.github.io
+url: https://bishion.github.io
 date_format: "ordinal"
 title: Bishion
 subtitle: "每天进步一点点"
@@ -17,7 +17,7 @@ side_bar_repo_limit: 5
 # ---------------- #
 author: GuoFangbi
 organization: bishion.github.io
-organization_url: http://bishion.github.io
+organization_url: https://bishion.github.io
 github_username: bishion
 location: Shanghai, China
 email: bishion@163.com
