@@ -7,6 +7,7 @@ keywords: 微服务，sleuth
 ---
 # 问题
 上期说，*Sleuth作为微服务下的调用链框架，支持traceId在各种多线程情况下的传递*。很抱歉，这个结论是错的，我在这里向大家道歉
+
 # 分析
 得出这个结论是因为官方文档的一句话[链接](http://cloud.spring.io/spring-cloud-static/spring-cloud-sleuth/1.3.0.RELEASE/multi/multi__integrations.html#_executor_executorservice_and_scheduledexecutorservice)：
 > We’re providing LazyTraceExecutor, TraceableExecutorService and TraceableScheduledExecutorService. Those implementations are creating Spans each time a new task is submitted, invoked or scheduled.
@@ -17,6 +18,7 @@ keywords: 微服务，sleuth
 # 证明
 ## 方法一
 写个[Demo](https://github.com/bishion/microService)看下，是否TraceId能够正常传过去
+
 ## 方法二
 我们看下**LazyTraceExecutor**是怎么做的
 ```java
