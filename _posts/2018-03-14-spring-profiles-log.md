@@ -1,3 +1,11 @@
+---
+layout: post
+title: spring cloud 根据不同环境加载不同 log 配置
+categories: 微服务
+description: spring cloud 根据不同环境加载不同 log 配置
+keywords: 微服务，logback
+---
+
 # 问题
 目前微服务中，logback的配置是写死的（如下）。这样会导致一个问题，本地需要看控制台时，就把控制台日志放开；
 提交代码时，又需要手动把控制台日志注释掉
