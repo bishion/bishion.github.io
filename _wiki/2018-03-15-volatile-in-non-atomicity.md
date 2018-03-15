@@ -49,3 +49,11 @@ public class VolatileTest {
 1. 两个线程 A 和 B，两个线程同时读了最新的副本：800，接着同时做 inc + 1
 2. A 线程执行 inc = 801，接着释放，轮到 B 线程执行 inc = 801 
 3. 因为 2 步骤只有写入步骤，线程不会检查最新版本的 inc，因此 inc 的值最终为 801
+
+## 解决方式
+对 increased() 方法加锁
+```java
+public synchronized void increased() {
+    inc++;
+}
+```
