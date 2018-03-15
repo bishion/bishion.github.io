@@ -8,8 +8,6 @@ menu: 维基
 permalink: /wiki/
 ---
 
-> 空空如也
-
 <ul class="listing">
 {% for wiki in site.wiki %}
 {% if wiki.title != "Wiki Template" %}
