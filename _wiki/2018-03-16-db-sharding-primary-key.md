@@ -2,7 +2,7 @@
 layout: wiki
 title: 分库分表键的选择
 categories: 数据库
-description: 键是用逻辑主键还是业务主键
+description: 分库分表键是用逻辑主键还是业务主键
 keywords: sharding，database 
 ---
 
