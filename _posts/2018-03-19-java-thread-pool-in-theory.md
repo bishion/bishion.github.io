@@ -16,7 +16,7 @@ keywords: Java 多线程，multi-threading
 
 ThreadPoolExecutor 作为 Java 最核心的线程池工具，我们看下它是如何工作的。
 # 类图
-![image](../images/2018-03-19-ThreadPoolExecutor-class.png)
+![image](/images/2018-03-19-ThreadPoolExecutor-class.png)
 # 主要属性
 ```java
 /** 超过核心线程数的请求放到等待队列里面 */
@@ -50,7 +50,7 @@ public void execute(Runnable command) {
 }
 ```
 ## 流程图
-![image](../images/2018-03-19-execute-work-flow.png)
+![image](/images/2018-03-19-execute-work-flow.png)
 ## 分析
 通过源码可知，executor() 方法中并没有明显的执行任务的痕迹，它做的事情很简单：
 1. 如果池没满，就新建一个worker，把任务传过去
@@ -173,7 +173,7 @@ private Runnable getTask() {
 }
 ```
 ## 流程图
-![image](../images/2018-03-19-getTask-work-flow.png)
+![image](/images/2018-03-19-getTask-work-flow.png)
 ## 分析
 它这里用了很巧妙的方式来实现线程池的等待：BlockingQueue.poll()：
 1. 将 poll() 的超时时间跟线程的等待时间设置成一样
