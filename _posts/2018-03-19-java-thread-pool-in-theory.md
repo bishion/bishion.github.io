@@ -175,7 +175,6 @@ private Runnable getTask() {
 }
 ```
 ## 流程图
-
+![image](../images/getTask-work-flow.png)
 ## 分析
-线程池的等待功能并非是在 runWorker() 中做的，而是放在去队列里拿任务（即：getTask()）时实现的
-1
+
