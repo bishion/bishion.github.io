@@ -173,7 +173,7 @@ private Runnable getTask() {
 }
 ```
 ## 流程图
-![ima sdf  sd ge](/images/2018-03-19-getTask-work-flow.png)
+![image](/images/2018-03-19-getTask-work-flow.png)
 ## 分析
 它这里用了很巧妙的方式来实现线程池的等待：BlockingQueue.poll()：
 1. 将 poll() 的超时时间跟线程的等待时间设置成一样
