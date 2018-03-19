@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Wiki
-description: 日常整理
+description: 好记性不如烂笔头
 keywords: 维基, Wiki
 comments: false
 menu: 维基
