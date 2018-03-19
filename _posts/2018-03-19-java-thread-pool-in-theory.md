@@ -16,7 +16,7 @@ keywords: Java 多线程，multi-threading
 
 ThreadPoolExecutor 作为 Java 最核心的线程池工具，我们看下它是如何工作的。
 # 类图
-![image](../images/ThreadPoolExecutor-class.png)
+![image](../images/2018-03-19-ThreadPoolExecutor-class.png)
 # 主要属性
 ```java
 /** 超过核心线程数的请求放到等待队列里面 */
@@ -29,7 +29,7 @@ private final HashSet<Worker> workers = new HashSet<Worker>();
 private volatile boolean allowCoreThreadTimeOut;
 /** 空闲多久的线程算超时 */
 private volatile long keepAliveTime;
-/** 如果请求数超过等待队列长度，执行的拒绝策略(默认是直接丢弃)*/
+/** 如果请求数超过等待队列长度，执行的拒绝策略(默认是抛异常)*/
 private static final RejectedExecutionHandler defaultHandler = new AbortPolicy();
 ```
 # Execute() 方法
@@ -50,7 +50,7 @@ public void execute(Runnable command) {
 }
 ```
 ## 流程图
-![image](../images/execute-work-flow.png)
+![image](../images/2018-03-19-execute-work-flow.png)
 ## 分析
 通过源码可知，executor() 方法中并没有明显的执行任务的痕迹，它做的事情很简单：
 1. 如果池没满，就新建一个worker，把任务传过去
@@ -106,9 +106,7 @@ addWorker() 的处理流程：
 2. 如果当前线程池运行正常，就将新 Worker 加入到线程池
 3. 执行 Worker 的 start() 方法
 
-
-
-这里我们能看出来，ThreadPoolExecutor 的执行原理是：
+由此我们得出，ThreadPoolExecutor 的执行原理是：
 1. 维护一个 Worker 集合，作为线程池
 2. 新任务过来后，新建一个 Worker， 把自己传给 Worker.thread, 把请求传给 Worker.firstTask
 3. 然后调用 Worker.start()，因为 Worker 本身是 Runnable 的实现类，所以执行了 start() 后，jvm 会创建一个线程执行 worker.run()
@@ -142,7 +140,7 @@ final void runWorker(Worker w) {
 3. 等到队列里的数据也执行完，它就执行 processWorkerExit() 方法销毁当前的 Worker
 
 这种处理方式有几个好处：
-1. 如果线程空闲了，就及时销毁掉，不占资源
+1. 如果线程空闲，就及时销毁掉，不占资源
 2. 等下次新批次的任务过来了，直接复用前文逻辑：新建 worker，新起线程，执行当前任务和队列中的任务
 
 ## 思考
@@ -175,6 +173,23 @@ private Runnable getTask() {
 }
 ```
 ## 流程图
-![image](../images/getTask-work-flow.png)
+![image](../images/2018-03-19-getTask-work-flow.png)
 ## 分析
+它这里用了很巧妙的方式来实现线程池的等待：BlockingQueue.poll()：
+1. 将 poll() 的超时时间跟线程的等待时间设置成一样
+2. 如果在该时间内拿到任务，则返回该任务给 Worker 执行
+3. 如果在该时间内拿不到任务，则认为超时，销毁当前Worker
 
+另外，它还通过 BlockingQueue.take() 支持了线程永不销毁功能
+
+# 结论
+至此，我们总算理清了 Java 线程池工具类 ThreadPoolExecutor.execute() 的业务流程：
+
+1. 新任务 task 过来后，将它交给新建的 Worker 来执行
+2. 新建的 Worker 数目超过设定大小后，再来的任务就扔到等待队列中排队
+3. 等到队伍排满了之后，再来的任务就执行拒绝策略(如丢弃、抛异常、异步改同步、丢掉排队最久的任务)
+4. 当前的 Worker 执行完当前的 task 之后，会再去队列里拿等待的任务
+5. 在不允许超时配置下，如果拿不到就一直等在那
+6. 在允许超时配置下，如果拿不到，会在超时时间内等待，还拿不到，就销毁当前Worker
+
+感谢 付本成、路靖忠 等同学的热心帮助
