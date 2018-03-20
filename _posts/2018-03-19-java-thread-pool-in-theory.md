@@ -12,25 +12,25 @@ keywords: Java 多线程，multi-threading
 
 > A thread pool is a collection of worker threads that efficiently execute asynchronous callbacks on behalf of the application.  ---msdn
 
-> 翻译：线程是帮应用程序执行异步回调功能的一组工作线程
+> 翻译：线程是帮应用程序执行异步(回调)功能的一组工作线程
 
 ThreadPoolExecutor 作为 Java 最核心的线程池工具，我们看下它是如何工作的。
 # 类图
-![image](/images/2018-03-19-ThreadPoolExecutor-class.png)
+![image](/images/ThreadPoolExecutor-class.png)
 # 主要属性
 ```java
-/** 超过核心线程数的请求放到等待队列里面 */
-private final BlockingQueue<Runnable> workQueue;
 /** 线程池的大小 */
 private volatile int corePoolSize;
-/** 线程池由HashSet保存，里面每个线程对应一Worker */
+/** 池子里装的元素 */
 private final HashSet<Worker> workers = new HashSet<Worker>();
+/** 超过核心线程数的请求放到等待队列里面 */
+private final BlockingQueue<Runnable> workQueue;
+/** 如果请求数超过等待队列长度，执行的拒绝策略(默认是抛异常)*/
+private static final RejectedExecutionHandler defaultHandler = new AbortPolicy();
 /** 是否允许空闲的线程执行超时释放 */
 private volatile boolean allowCoreThreadTimeOut;
 /** 空闲多久的线程算超时 */
 private volatile long keepAliveTime;
-/** 如果请求数超过等待队列长度，执行的拒绝策略(默认是抛异常)*/
-private static final RejectedExecutionHandler defaultHandler = new AbortPolicy();
 ```
 # Execute() 方法
 ## 源码--简化版
@@ -39,25 +39,27 @@ private static final RejectedExecutionHandler defaultHandler = new AbortPolicy()
 public void execute(Runnable command) {
     int c = ctl.get();
     if (workerCountOf(c) < corePoolSize) {
+    // 新建一个核心 Worker，第二个参数表示是不是核心池里的 Worker
         if (addWorker(command, true))
             return;
     }
     if (workQueue.offer(command)) {
+    // 新建一个空的非核心池中 Worker，这里是为了支持 “核心线程数 < wc < 最大线程数” 的情况
             addWorker(null, false);
-    }
+    }// 入队列不成功，再给一次执行机会，失败就直接使用拒绝策略了
     else if (!addWorker(command, false))
         reject(command);
 }
 ```
 ## 流程图
-![image](/images/2018-03-19-execute-work-flow.png)
+![image](/images/execute-work-flow.png)
 ## 分析
 通过源码可知，executor() 方法中并没有明显的执行任务的痕迹，它做的事情很简单：
 1. 如果池没满，就新建一个worker，把任务传过去
 2. 如果池满了，就将任务扔到等待队列里去
-3. 如果队列满了，就执行拒绝策略
+3. 如果队列满，就执行拒绝策略
 
-那问题来了，任务到底是什么时候执行的呢，答案应该在 addWorker() 方法中
+问题是：任务到底是什么时候执行的呢
 
 # addWorker() 方法
 
@@ -113,7 +115,8 @@ addWorker() 的处理流程：
 4. 这样就达到了异步执行请求的目的
 
 ## 思考
-那么问题来了，按照上面 execute() 的逻辑，如果任务过来时，没有空余线程给它用，它是直接进入到等待队列里的，那就没有触发 Worker.run()，
+按照一开始上面 execute() 的逻辑，如果任务过来时，线程池是满的，它只能直接进入到等待队列，并没有触发 Worker.run()
+
 那等待队列里的任务是什么时候开始执行的呢？
 
 # runWorker() 方法
@@ -146,9 +149,9 @@ final void runWorker(Worker w) {
 ## 思考
 runWorker() 中，它获取不到任务时，立刻就关闭了当前线程
 
-这种方式只能应对一下来了很多任务，接着闲置半天的情况
+这种方式应对任务半天不来，一来来堆的情况还是很不错的
 
-为什么就不能等一会儿呢？如果我的任务过来的时间稍微分散一点，那么每批数据过来都要重新建立线程池了
+可是为什么就不能有个等待时间呢，不然我的任务过来的时间是均匀分散的，那每批任务到了后 ThreadPoolExecutor 都要重新建立线程池？
 
 # getTask() 方法
 ## 源码--简化版
@@ -173,7 +176,7 @@ private Runnable getTask() {
 }
 ```
 ## 流程图
-![image](/images/2018-03-19-getTask-work-flow.png)
+![image](/images/getTask-work-flow.png)
 ## 分析
 它这里用了很巧妙的方式来实现线程池的等待：BlockingQueue.poll()：
 1. 将 poll() 的超时时间跟线程的等待时间设置成一样
@@ -192,4 +195,7 @@ private Runnable getTask() {
 5. 在不允许超时配置下，如果拿不到就一直等在那
 6. 在允许超时配置下，如果拿不到，会在超时时间内等待，还拿不到，就销毁当前Worker
 
-感谢 付本成、路靖忠 等同学的热心帮助
+# 后记
+为了阅读方便，源码示例中删除了令人眩晕的各种锁和检查机制，只保留处理流程。建议感兴趣的同学直接参考源码。
+
+本文是对线程池的基本功能做了一个梳理，写的不严谨或者错误的地方欢迎留言指出，共同学习。
