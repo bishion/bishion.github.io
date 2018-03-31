@@ -196,7 +196,7 @@ public static final IClientConfigKey<Integer> MaxAutoRetriesNextServer = new Com
 ```
 
 ## feign 默认重试机制分析
-1. feign 默认不会使用 Retryer 重试，如果你希望自定义重试，可以自己实现 Restryer 接口，并注入
+1. feign 默认不会使用 Retryer 重试，如果你希望自定义重试，可以自己实现 Retryer 接口，并注入
 2. feign 默认会使用 Observable 做一次不同 server 的重试(如果你只有一个 server，它只能再对这台 server 重试一次)
 3. 如果想要彻底关闭重试，需要加上配置：ribbon.MaxAutoRetriesNextServer = 0
 4. feign 的重试做的很理性，毕竟无论是不是微服务，只有一个服务提供方也太寒碜
