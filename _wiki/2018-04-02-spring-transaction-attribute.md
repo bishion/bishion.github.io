@@ -13,7 +13,7 @@ Spring 支持的事务粒度是方法级别。
 
 # spring 事务传播属性(TransactionDefinition)
 | 属性 | 值 | 含义 |
-| ---- | ---- | - |
+| ---- | ---- | -------------- |
 | PROPAGATION_REQUIRED | 0 | 如果当前没有事务，就新建一个；如果有，就将自己加入当前的事务。这个是默认设置 |
 | PROPAGATION_SUPPORTS | 1 | 如果当前没有事务，那就算了；如果有，就将自己加入当前的事务 |
 | PROPAGATION_MANDATORY | 2| 如果当前没有事务，就抛出异常；如果当前有事务，就将自己加入当前的事务 |
@@ -24,11 +24,11 @@ Spring 支持的事务粒度是方法级别。
 | ISOLATION_DEFAULT | -1 | 使用数据库默认的事务传播机制 |
 
 # spring 数据库事务隔离级别
-| 属性 | 值 | 含义| 影响 | 
-| ---- | :---: | ----： |
+| 属性 | 值 | 含义 | 影响 |
+| ---- | ---- | -------------- | ---- |
 | ISOLATION_DEFAULT | -1 | 使用数据库的事务隔离级别 | 参考下方具体设置
 | TRANSACTION_NONE | 0 | 不使用事务 | 容易丢失数据
 | ISOLATION_READ_UNCOMMITTED | 1 | 能读别人未提交的数据，会出现脏读
 | TRANSACTION_READ_COMMITTED | 2 | 只能读别人提交的数据，读的时候，别人可以写，只是没提交的值，你读不到。会造成不可重复读
 | TRANSACTION_REPEATABLE_READ | 4 | 可重复读，即读的时候别人不允许修改，但是别人可以插入值。会有幻读
-| TRANSACTION_SERIALIZABLE | 8 | 序列化，可以认为是单线程，
+| TRANSACTION_SERIALIZABLE | 8 | 序列化，可以认为是单线程
