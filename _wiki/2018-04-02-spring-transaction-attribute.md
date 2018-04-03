@@ -1,6 +1,6 @@
 ---
 layout: wiki
-title: 事务的一些事情
+title: 事务相关
 categories: 事务
 description: spring 的事务传播机制，数据库的事务隔离级别
 keywords: spring, transaction
