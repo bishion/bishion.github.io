@@ -25,7 +25,7 @@ Spring 支持的事务粒度是方法级别。
 
 # spring 数据库事务隔离级别
 | 属性 | 值 | 含义| 影响 | 
-| - | - | - |
+| ---- | :---: | ----： |
 | ISOLATION_DEFAULT | -1 | 使用数据库的事务隔离级别 | 参考下方具体设置
 | TRANSACTION_NONE | 0 | 不使用事务 | 容易丢失数据
 | ISOLATION_READ_UNCOMMITTED | 1 | 能读别人未提交的数据，会出现脏读
