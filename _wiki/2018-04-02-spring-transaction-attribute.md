@@ -13,7 +13,7 @@ Spring 支持的事务粒度是方法级别。
 
 # spring 事务传播属性(TransactionDefinition)
 | 属性 | 值 | 含义 |
-| - | - | - |
+| ---- | ---- | - |
 | PROPAGATION_REQUIRED | 0 | 如果当前没有事务，就新建一个；如果有，就将自己加入当前的事务。这个是默认设置 |
 | PROPAGATION_SUPPORTS | 1 | 如果当前没有事务，那就算了；如果有，就将自己加入当前的事务 |
 | PROPAGATION_MANDATORY | 2| 如果当前没有事务，就抛出异常；如果当前有事务，就将自己加入当前的事务 |
@@ -21,7 +21,7 @@ Spring 支持的事务粒度是方法级别。
 | PROPAGATION_NOT_SUPPORTED | 4 | 如果当前没有事务，就正常执行；如果当前有事务，就将当前事务挂起 |
 | PROPAGATION_NEVER | 5 | 如果当前没有事务，就正常执行；如果当前有事务，就抛出异常 |
 | PROPAGATION_NESTED | 6 | 如果当前没有事务，就新建一个；如果有，就在嵌套事务里执行 |
-| ISOLATION_DEFAULT | -1 | 使用数据库默认的事务传播机制
+| ISOLATION_DEFAULT | -1 | 使用数据库默认的事务传播机制 |
 
 # spring 数据库事务隔离级别
 | 属性 | 值 | 含义| 影响 | 
