@@ -12,6 +12,7 @@ Spring 支持的事务粒度是方法级别。
 不过 spring 的事务传播，主要看 methodB() 的事务如何处理，这里还包含 methodA() 没有事务的情况
 
 # spring 事务传播属性(TransactionDefinition)
+
 |属性|值|含义|
 |------------|------------|------------|
 |PROPAGATION_REQUIRED|0|如果当前没有事务，就新建一个；如果有，就将自己加入当前的事务。这个是默认设置|
