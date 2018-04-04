@@ -13,6 +13,10 @@ Spring 支持的事务粒度是方法级别。
 
 # spring 事务传播属性(TransactionDefinition)
 
+|test|test|
+|---|---|
+|west|east|
+
 |属性|值|含义|
 |------------|------------|------------|
 |PROPAGATION_REQUIRED|0|如果当前没有事务，就新建一个；如果有，就将自己加入当前的事务。这个是默认设置|
