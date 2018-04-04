@@ -28,3 +28,9 @@ Spring 支持的事务粒度是方法级别。
 4. TRANSACTION_READ_COMMITTED 只能读别人提交的数据，读的时候，别人可以写，只是没提交的值，你读不到。会造成不可重复读
 5. TRANSACTION_REPEATABLE_READ 可重复读，即读的时候别人不允许修改，但是别人可以插入值。会有幻读
 6. TRANSACTION_SERIALIZABLE 序列化，可以认为是单线程
+
+# 表格测试
+
+|test|test|
+|---|---|
+|west|east|
