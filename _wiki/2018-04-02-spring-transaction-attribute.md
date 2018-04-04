@@ -12,14 +12,14 @@ Spring 支持的事务粒度是方法级别。
 不过 spring 的事务传播，主要看 methodB() 的事务如何处理，这里还包含 methodA() 没有事务的情况
 
 # spring 事务传播属性(TransactionDefinition)
-1. PROPAGATION_REQUIRED 如果当前没有事务，就新建一个；如果有，就将自己加入当前的事务。这个是默认设置 |
-2. PROPAGATION_SUPPORTS 如果当前没有事务，那就算了；如果有，就将自己加入当前的事务 |
-3. PROPAGATION_MANDATORY 如果当前没有事务，就抛出异常；如果当前有事务，就将自己加入当前的事务 |
-4. PROPAGATION_REQUIRES_NEW 如果当前没有事务，就新建一个事务；如果当前有事务，就将当前事务挂起 |
-5. PROPAGATION_NOT_SUPPORTED 如果当前没有事务，就正常执行；如果当前有事务，就将当前事务挂起 |
-6. PROPAGATION_NEVER 如果当前没有事务，就正常执行；如果当前有事务，就抛出异常 |
-7. PROPAGATION_NESTED 如果当前没有事务，就新建一个；如果有，就在嵌套事务里执行 |
-8. ISOLATION_DEFAULT 使用数据库默认的事务传播机制 |
+1. PROPAGATION_REQUIRED 如果当前没有事务，就新建一个；如果有，就将自己加入当前的事务。这个是默认设置
+2. PROPAGATION_SUPPORTS 如果当前没有事务，那就算了；如果有，就将自己加入当前的事务
+3. PROPAGATION_MANDATORY 如果当前没有事务，就抛出异常；如果当前有事务，就将自己加入当前的事务
+4. PROPAGATION_REQUIRES_NEW 如果当前没有事务，就新建一个事务；如果当前有事务，就将当前事务挂起
+5. PROPAGATION_NOT_SUPPORTED 如果当前没有事务，就正常执行；如果当前有事务，就将当前事务挂起
+6. PROPAGATION_NEVER 如果当前没有事务，就正常执行；如果当前有事务，就抛出异常
+7. PROPAGATION_NESTED 如果当前没有事务，就新建一个；如果有，就在嵌套事务里执行
+8. ISOLATION_DEFAULT 使用数据库默认的事务传播机制
 
 # spring 数据库事务隔离级别
 1. ISOLATION_DEFAULT 使用数据库的事务隔离级别，参考下方具体设置
