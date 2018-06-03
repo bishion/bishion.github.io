@@ -1,7 +1,7 @@
 ---
 layout: page
 title: About
-description: 打码改变世界
+description: 越努力越幸运
 keywords: Bishion GuoFangbi
 comments: true
 menu: 关于
@@ -10,7 +10,7 @@ permalink: /about/
 
 我是郭芳碧。
 
-仰慕「编码是沟通的艺术」。
+「从来不优秀，一直最幸运」。
 
 坚信「越努力越幸运」。
 
