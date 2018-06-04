@@ -6,8 +6,8 @@ description: 自定义 spring boot starter
 keywords: spring
 ---
 # 背景
-spring cloud 提供了很多“开箱即用”的功能：默认不需要任何配置，只要引入相关包即可生效 
-将我们的功能模块也加上这样的功能需要哪些东西呢？
+spring cloud 提供了很多“开箱即用”的功能：默认不需要任何配置，只要引入相关包即可生效  
+如果将我们的功能模块也加上这样的特性，需要做哪些事情呢？
 
 # 第一：pom
 ```xml
