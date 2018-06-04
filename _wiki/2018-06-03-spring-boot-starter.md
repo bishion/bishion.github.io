@@ -5,7 +5,11 @@ categories: spring
 description: 自定义 spring boot starter
 keywords: spring
 ---
-# pom
+# 背景
+spring cloud 提供了很多“开箱即用”的功能：默认不需要任何配置，只要引入相关包即可生效 
+将我们的功能模块也加上这样的功能需要哪些东西呢？
+
+# 第一：pom
 ```xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
@@ -13,7 +17,8 @@ keywords: spring
     <version>1.5.7.RELEASE</version>
 </dependency>
 ```
-# java
+
+# 第二：java
 ```java
 @Configuration
 public class BiziAutoConfiguration {
@@ -29,7 +34,7 @@ public class MyService {
 }
 ```
 
-#spring.factories
+# 第三：spring.factories
 文件位置： /resources/META-INF/factories
 ```properties
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.bizi.starter.BiziAutoConfiguration
