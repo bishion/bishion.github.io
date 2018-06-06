@@ -35,7 +35,7 @@ public class MyService {
 ```
 
 # 第三：spring.factories
-文件位置： /resources/META-INF/factories
+文件位置： /resources/META-INF/spring.factories
 ```properties
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.bizi.starter.BiziAutoConfiguration
 ```
