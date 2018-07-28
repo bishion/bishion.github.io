@@ -17,14 +17,14 @@ Consul 是一个分布式服务网格(service mesh)，无论是跨平台还是�
 [在线演示](https://demo.consul.io/)
 
 ## Consul 命令行演示视频  
-<video muted="muted" controls="" preload="none">
-<source id="mp4" src="/images/consul/connect-video-ui.mp4" type="video/mp4">
+<video controls="controls" autoplay="autoplay" height="364" width="573">
+<source src="/images/consul/connect-video-ui.mp4" type="video/mp4">
 <p>Your user agent does not support the HTML5 Video element.</p>
 </video>
 
 ## Consul UI 演示视频
-<video muted="muted" controls="" preload="none">
-<source id="mp4" src= "/images/consul/connect-video-ui.mp4" type="video/mp4">
+<video controls="controls" autoplay="autoplay" height="364" width="573">
+<source  src= "/images/consul/connect-video-ui.mp4" type="video/mp4">
 <p>Your user agent does not support the HTML5 Video element.</p>
 </video>
 
