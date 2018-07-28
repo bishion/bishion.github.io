@@ -32,17 +32,12 @@ Consul 是一个分布式服务网格(service mesh)，无论是跨平台还是�
 静态架构向动态架构迁移过程中，通信方式从静态IP访问变成动态的服务发现，安全防护也从静态防火墙变成了动态的服务隔离。
 ### 静态架构
 基于主机IP的通信
-![image](/images/consul/static-10fde1a2.svg)
+![image](/images/consul/static-net.png)
 ### 动态架构
 基于服务的通信
-<div width="100%" style="overflow-x: auto;"> 
-  <svg width="140" height="170">
-    <title>SVG Sample</title>
-    <desc>This is a sample to use SVG in markdown on the website cnblogs.</desc>
-    <circle cx="70" cy="95" r="50" style="stroke: black; fill: none;"/>
-  </svg>
-</div>
+![image](/images/consul/dynamic-net.png)
 # 使用场景
+
 
 # 介绍
 ## 什么是 Consul
