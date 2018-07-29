@@ -72,13 +72,52 @@ $ curl http://localhost:8500/v1/kv/deployment
 - 通过可插拔的认证中心提供TLS证书
 ![image](/images/consul/grid_2_1256-6d4637c2.webp)
 # 使用场景
-## <span id="more-disvocery">服务发现</span>
+## <span id="more-disvocery">服务发现变得简单</span>
+服务注册，内置健康检查，DNS和HTTP接口，让服务发现变得更加简单。  
+[下载](#download) [查看文档](#started-service)
+### 挑战
+在动态的世界中，服务负载变得不再高效   
+负载均衡经常被用在服务的上层，然后提供一个静态的IP给客户端调用。它增加成本和延时，引入了单点故障，并且必须随着服务扩缩容而更新。
+![image](/images/consul/use-case-discovery-challenge.svg)
+### 解决方案
+动态架构下的服务发现  
+动态架构下，服务发现是取代负载均衡的最佳选择。注册中心来维护一个实时的服务列表，包括服务地址和服务的健康状况。客户端通过注册中心查询服务端的地址，然后直接跟服务端通信。这就达到了脱离负载均衡也能弹性括缩容和优雅容错的目的。
+![image](/images/consul/use-case-solution.svg)
+### 特点
+#### 服务注册中心
+Consul 提供了一个注册中心，我们可以看到所有的运行节点和服务还有它们的健康状况。通过它的 HTTP 接口，运维人员可以了解环境，了解那些与动态架构交互的应用程序和自动化运维工具。
+[了解更多](#started-service)
+![image](/images/consul/ui-health-checks.jpg)
+#### DNS 查询接口
+Consul 使用内置的 DNS 服务器来实现服务发现。因为几乎所有的应用都支持使用 DNS 来做 IP 解析，这就让现有的应用很容易集成。使用 DNS 代替静态 IP 地址，可以让服务弹性扩缩容和绕过故障节点变得更加简单。
+[了解更多](#started-service-query)
+```bash
+
+$ dig web-frontend.service.consul. ANY
+
+; <<>> DiG 9.8.3-P1 <<>> web-frontend.service.consul. ANY
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 29981
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 0
+
+;; QUESTION SECTION:
+;web-frontend.service.consul. IN ANY
+
+;; ANSWER SECTION:
+web-frontend.service.consul. 0 IN A 10.0.3.83
+web-frontend.service.consul. 0 IN A 10.0.1.109
+```
+#### 带有边界触发器的 HTTP 接口
+Consul 提供了 HTTP 接口，供用户从注册中心查询节点，服务及其健康信息。
 ## <span id="more-segmentation">服务隔离</span>
 ## <span id="more-configuration">服务配置</span>
 # 介绍
 ## 什么是 Consul
 ## Consul 与其他框架对比
 ## <span id="started">正式入门</span>
+### <span id="started-service">服务</span>
+#### <span id="started-service">服务查询</span>
 # 指南
 # 文档
 # API
