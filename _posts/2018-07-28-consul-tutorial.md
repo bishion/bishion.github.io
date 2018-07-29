@@ -147,7 +147,12 @@ $ curl http://localhost:8500/v1/catalog/datacenters
     },
 ...
 ```
-## <span id="more-segmentation">服务隔离</span>
+#### 健康检查
+将服务发现和健康检查结合，就可以防止请求被路由到不健康的主机，继而轻松实现断路器功能。
+[了解更多](#guides-health-check)
+![image](/images/consul/ui-health-checks.jpg)
+## <span id="more-segmentation">服务隔离变得简单-*新特性*</span>
+
 ## <span id="more-configuration">服务配置</span>
 # 介绍
 ## 什么是 Consul
@@ -156,6 +161,7 @@ $ curl http://localhost:8500/v1/catalog/datacenters
 ### <span id="started-service">服务</span>
 #### <span id="started-service-query">服务查询</span>
 #### <span id="started-service-http">HTTP 接口</span>
+### <span id="started-health-check">健康检查</span>
 # 指南
 ## <span id="guides-datacenter">多数据中心</span>
 # 文档
