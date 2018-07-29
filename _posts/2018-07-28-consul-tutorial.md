@@ -109,7 +109,44 @@ web-frontend.service.consul. 0 IN A 10.0.3.83
 web-frontend.service.consul. 0 IN A 10.0.1.109
 ```
 #### 带有边界触发器的 HTTP 接口
-Consul 提供了 HTTP 接口，供用户从注册中心查询节点，服务及其健康信息。
+Consul 提供了 HTTP 接口，供用户从注册中心查询节点，服务及其健康信息。该接口还支持阻塞查询或者对更改进行轮询。它允许自动化工具对正在注册或者健康状态发生变化的服务实时地修改配置或者重新路由。
+[了解更多](#started-service-http)
+```bash
+$ curl http://localhost:8500/v1/health/service/web?index=11&wait=30s
+{
+  ...
+  "Node": "10-0-1-109",
+  "CheckID": "service:web",
+  "Name": "Service 'web' check",
+  "Status": "critical",
+  "ServiceID": "web",
+  "ServiceName": "web",
+  "CreateIndex": 10,
+  "ModifyIndex": 20
+  ...
+}
+```
+#### 多数据中心
+Consul 支持开箱即用的多数据中心，而且不需要复杂的配置。在另一个数据中心查询服务，跟查询本地服务一样。预查询(Prepared Queries)等高级功能可以自动将失败查询转移到其他数据中心。
+[了解更多](#guides-datacenter)
+```bash
+$ curl http://localhost:8500/v1/catalog/datacenters
+["dc1", "dc2"]$ curl http://localhost:8500/v1/catalog/nodes?dc=dc2
+[
+    {
+        "ID": "7081dcdf-fdc0-0432-f2e8-a357d36084e1",
+        "Node": "10-0-1-109",
+        "Address": "10.0.1.109",
+        "Datacenter": "dc2",
+        "TaggedAddresses": {
+            "lan": "10.0.1.109",
+            "wan": "10.0.1.109"
+        },
+        "CreateIndex": 112,
+        "ModifyIndex": 125
+    },
+...
+```
 ## <span id="more-segmentation">服务隔离</span>
 ## <span id="more-configuration">服务配置</span>
 # 介绍
@@ -117,8 +154,10 @@ Consul 提供了 HTTP 接口，供用户从注册中心查询节点，服务及�
 ## Consul 与其他框架对比
 ## <span id="started">正式入门</span>
 ### <span id="started-service">服务</span>
-#### <span id="started-service">服务查询</span>
+#### <span id="started-service-query">服务查询</span>
+#### <span id="started-service-http">HTTP 接口</span>
 # 指南
+## <span id="guides-datacenter">多数据中心</span>
 # 文档
 # API
 # 社区
