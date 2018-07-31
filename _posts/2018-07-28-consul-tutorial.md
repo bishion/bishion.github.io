@@ -164,7 +164,8 @@ $ curl http://localhost:8500/v1/catalog/datacenters
 ![image](/images/consul/use-case-secure-segment.svg)
 ### 特点
 #### 服务调用图
-
+定义和强制服务间的访问使用 Intentions 配置。基于服务的规则比基于 IP 的规则更容易管理变来变去的动态架构。  
+[了解更多](#docs-connect-intention)
 # 介绍
 ## 什么是 Consul
 ## Consul 与其他框架对比
@@ -177,6 +178,7 @@ $ curl http://localhost:8500/v1/catalog/datacenters
 ## <span id="guides-datacenter">多数据中心</span>
 # 文档
 ## <span id="docs-connect">连接</span>
+### <span id="docs-connect-intention">Intentions</span>
 # API
 # 社区
 # <span id="download">下载</span>
