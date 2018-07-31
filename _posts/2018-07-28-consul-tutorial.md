@@ -168,7 +168,7 @@ $ curl http://localhost:8500/v1/catalog/datacenters
 [了解更多](#docs-connect-intention)
 # 介绍
 ## 什么是 Consul
-## Consul 与其他框架对比
+## Consul 与其他框架对比 
 ## <span id="started">正式入门</span>
 ### <span id="started-service">服务</span>
 #### <span id="started-service-query">服务查询</span>
