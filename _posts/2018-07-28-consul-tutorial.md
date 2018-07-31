@@ -152,6 +152,12 @@ $ curl http://localhost:8500/v1/catalog/datacenters
 [了解更多](#guides-health-check)
 ![image](/images/consul/ui-health-checks.jpg)
 ## <span id="more-segmentation">服务隔离变得简单-*新特性*</span>
+自动TLS加密和身份认证让服务间访问变得更加安全
+[下载](#download) [查看文档](#docs-connect)
+### 挑战
+防火墙的安全防护方式在动态配置下伸缩性不强。  
+![image](/images/consul/use-case-secure-firewall.svg)
+### 解决方案
 
 ## <span id="more-configuration">服务配置</span>
 # 介绍
@@ -165,6 +171,7 @@ $ curl http://localhost:8500/v1/catalog/datacenters
 # 指南
 ## <span id="guides-datacenter">多数据中心</span>
 # 文档
+## <span id="docs-connect">连接</span>
 # API
 # 社区
 # <span id="download">下载</span>
