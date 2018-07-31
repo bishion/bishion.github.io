@@ -155,11 +155,16 @@ $ curl http://localhost:8500/v1/catalog/datacenters
 自动TLS加密和身份认证让服务间访问变得更加安全
 [下载](#download) [查看文档](#docs-connect)
 ### 挑战
-防火墙的安全防护方式在动态配置下伸缩性不强。  
+防火墙模式在动态配置下伸缩性不强。  
+服务间防火墙基于 IP 访问限制来保护入网和出网流量。但是在动态的世界里，服务随时会创建和销毁，防火墙的扩展性很低，因为它带来的是复杂的网络拓扑和随时变换的防火墙规则。
 ![image](/images/consul/use-case-secure-firewall.svg)
 ### 解决方案
+基于服务隔离的动态服务鉴权。  
+服务隔离是让服务自己管理访问限制，而不是依赖网络。Consul 使用服务策略规定哪些服务有权限访问。这些策略摆脱了IP规则和网络架构的束缚，可以在数据中心和大集群之间任意扩展。
+![image](/images/consul/use-case-secure-segment.svg)
+### 特点
+#### 服务调用图
 
-## <span id="more-configuration">服务配置</span>
 # 介绍
 ## 什么是 Consul
 ## Consul 与其他框架对比
