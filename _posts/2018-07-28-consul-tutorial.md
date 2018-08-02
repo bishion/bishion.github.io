@@ -165,7 +165,51 @@ $ curl http://localhost:8500/v1/catalog/datacenters
 ### 特点
 #### 服务调用图
 定义和强制服务间的访问使用 Intentions 配置。基于服务的规则比基于 IP 的规则更容易管理变来变去的动态架构。  
-[了解更多](#docs-connect-intention)
+[了解更多](#docs-connect-intention)  
+![image](/images/consul/ui-intentions-list.webp)
+#### 跨平台服务防护
+新旧平台之间的安全通信。Sidecar 可以让你在不改代码的情况下将它集成进应用程序，4层协议兼容所有的常见协议。grid_3_1256-1cecf8c0.webp
+[了解更多](#docs-connect-proxies)  
+![image](/images/consul/grid_3_1256-1cecf8c0.webp)
+#### 基于证书的服务识别
+使用 TLS 鉴别服务和加密通讯。SPIFFE 格式的证书可以更好地跟其他平台协作。Consul 可以作为一个授权中心来简化开发，或者与 Vault 这样的外部认证中心整合。  
+[了解更多](#docs-connect-ca)  
+![image](/images/consul/vault.png)![image](/images/consul/spiffe.png)
+#### 通信加密
+所有的服务间通信都经过 TLS 加密和鉴权。TLS 保证服务能正确识别，并对通信数据进行加密。
+[了解更多](#docs-connect-ca)  
+```bash
+$ consul connect proxy -service web \
+        -service-addr 127.0.0.1:8000
+        -listen 10.0.1.109:7200
+==> Consul Connect proxy starting...
+    Configuration mode: Flags
+                Service: web
+        Public listener: 10.0.1.109:7200 => 127.0.0.1:8000
+...
+$ tshark -V \
+        -Y "ssl.handshake.certificate" \
+        -O "ssl" \
+        -f "dst port 7200"
+Frame 39: 899 bytes on wire (7192 bits), 899 bytes captured (7192 bits) on interface 0
+Internet Protocol Version 4, Src: 10.0.1.110, Dst: 10.0.1.109
+Transmission Control Protocol, Src Port: 61918, Dst Port: 7200, Seq: 136, Ack: 916, Len: 843
+Secure Sockets Layer
+    TLSv1.2 Record Layer: Handshake Protocol: Certificate
+        Version: TLS 1.2 (0x0303)
+        Handshake Protocol: Certificate
+          RDNSequence item: 1 item (id-at-commonName=Consul CA 7)
+              RelativeDistinguishedName item (id-at-commonName=Consul CA 7)
+                  Id: 2.5.4.3 (id-at-commonName)
+                  DirectoryString: printableString (1)
+                      printableString: Consul CA 7
+```
+## 更简单的配置
+支持富配置中心
+### 挑战
+运行时的配置管理在大规模集群下性能不高。  
+
+### 解决方案
 # 介绍
 ## 什么是 Consul
 ## Consul 与其他框架对比 
@@ -179,6 +223,9 @@ $ curl http://localhost:8500/v1/catalog/datacenters
 # 文档
 ## <span id="docs-connect">连接</span>
 ### <span id="docs-connect-intention">Intentions</span>
+### <span id="docs-connect-proxies">代理</span>
+### <span id="docs-connect-ca">认证管理</span>
+### <span id="docs-connect-security">安全</span>
 # API
 # 社区
 # <span id="download">下载</span>
