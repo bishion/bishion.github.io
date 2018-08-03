@@ -259,6 +259,19 @@ $ curl http://localhost:8500/v1/kv/web/config/rate_limit?wait=1m&index=229
     }
 ]
 ```
+#### 监控
+监控组件使用阻塞查询来管理配置信息和健康状态的更新，在更新发生时去执行用户事先定义好的特定脚本。这给建造一个响应式架构带来了很大便利。  
+[了解更多](#guides-agent-watches)  
+```bash
+$ consul watch \
+      -type=key \
+      -key=web/config/rate_limit \
+      /usr/local/bin/record-rate-limit.sh
+```
+#### 分布式锁和信号量
+Key/Value 存储支持分布式锁和信号量。应用可以使用这个功能做leader选举或者控制共享资源的访问。
+[了解更多](#semaphore)  
+![image](/images/consul/use-case-lock-semaphore.svg)
 # 介绍
 ## 什么是 Consul
 ## Consul 与其他框架对比 
@@ -269,7 +282,10 @@ $ curl http://localhost:8500/v1/kv/web/config/rate_limit?wait=1m&index=229
 ### <span id="started-health-check">健康检查</span>
 # 指南
 ## <span id="guides-datacenter">多数据中心</span>
+## <span id="guides-semaphore">信号量</span>
 # 文档
+## 代理
+### <span id="docs-agent-watches">监控</span>
 ## <span id="docs-connect">连接</span>
 ### <span id="docs-connect-intention">Intentions</span>
 ### <span id="docs-connect-proxies">代理</span>
