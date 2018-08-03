@@ -219,7 +219,46 @@ Consul 支持上千节点的配置数据实时更新。配置存储在树状的 
 开关，状态等动态服务配置信息采用富 Key/Value 存储结构。  
 ![image](/images/consul/use-case-config-ui-kv.webp)
 #### 事务支持
-Key/Value 支持读或者写
+Key/Value 支持读或者写事务，它允许多个 key 原子地读写。服务配置的修改可以原子操作，从而避免一致性问题。
+[了解更多](#api-kv)  
+```bash
+$ curl http://localhost:8500/v1/txn \
+  --request PUT \
+  --data \
+  '[
+    {
+      "KV": {
+        "Verb": "set",
+        "Key": "lock",
+        "Value": "MQ=="
+      }
+    },
+    {
+      "KV": {
+        "Verb": "cas",
+        "Index": 10,
+        "Key": "configuration",
+        "Value": "c29tZS1jb25maWc="
+      }
+    }
+  ]'
+```
+#### 阻塞查询和边界触发请求
+Consul API 支持阻塞查询，允许边界触发更新。客户端通过这种方式可以在数据更新时收到通知。Consul-Template 或者类似工具允许配置文件在被修改时重新初始化。  
+[了解更多](#api-kv)  
+```bash
+$ curl http://localhost:8500/v1/kv/web/config/rate_limit?wait=1m&index=229
+[
+    {
+        "LockIndex": 0,
+        "Key": "web/config/rate_limit",
+        "Flags": 0,
+        "Value": "NjAw",
+        "CreateIndex": 229,
+        "ModifyIndex": 234
+    }
+]
+```
 # 介绍
 ## 什么是 Consul
 ## Consul 与其他框架对比 
@@ -237,5 +276,6 @@ Key/Value 支持读或者写
 ### <span id="docs-connect-ca">认证管理</span>
 ### <span id="docs-connect-security">安全</span>
 # API
+### <span id="api-kv">KV 存储</span>
 # 社区
 # <span id="download">下载</span>
