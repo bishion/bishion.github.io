@@ -208,8 +208,18 @@ Secure Sockets Layer
 支持富配置中心
 ### 挑战
 运行时的配置管理在大规模集群下性能不高。  
-
+服务总会有一些运行时修改的配置，比如状态标识或者开关等，需要实时生效。使用配置系统分发这些配置或者重启服务一般都需要几分钟甚至数小时。在推送过程中，框架一致性很难保证，服务配置也可能出错。  
+![image](/images/consul/use-case-config-challenge.svg)
 ### 解决方案
+分布式应用的实时配置中心  
+Consul 支持上千节点的配置数据实时更新。配置存储在树状的 Key/Value 结构中，高效的边界触发器可以将更新快速地推送出去。  
+![image](/images/consul/use-case-config-solution.svg)
+### 特点
+#### Key/Value 存储结构
+开关，状态等动态服务配置信息采用富 Key/Value 存储结构。  
+![image](/images/consul/use-case-config-ui-kv.webp)
+#### 事务支持
+Key/Value 支持读或者写
 # 介绍
 ## 什么是 Consul
 ## Consul 与其他框架对比 
