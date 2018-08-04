@@ -270,10 +270,12 @@ $ consul watch \
 ```
 #### 分布式锁和信号量
 Key/Value 存储支持分布式锁和信号量。应用可以使用这个功能做leader选举或者控制共享资源的访问。
-[了解更多](#semaphore)  
+[了解更多](#guides-semaphore)  
 ![image](/images/consul/use-case-lock-semaphore.svg)
 # 介绍
+本文是开始 Consul 旅程的最佳起点。我们将为大家介绍 Consul 是什么，它能解决什么问题，它跟现有类似框架有什么区别，以及如何使用它。如果你已经熟悉 Consul 的基本功能，[文档](#documentation)有对Consul功能点更具体的介绍。
 ## 什么是 Consul
+Consul 是 service mesh(服务网格)的一个解决方案，它提供了诸如服务发现，配置和隔离等功能的一整套控制平面(control plane)。开发人员可以根据需要单独使用这些功能点，也可以将他们整合成为一个完整的service mesh。Consul 需要一个数据平面(data plane)，并支持代理和本地集成模型。
 ## Consul 与其他框架对比 
 ## <span id="started">正式入门</span>
 ### <span id="started-service">服务</span>
@@ -283,7 +285,7 @@ Key/Value 存储支持分布式锁和信号量。应用可以使用这个功能�
 # 指南
 ## <span id="guides-datacenter">多数据中心</span>
 ## <span id="guides-semaphore">信号量</span>
-# 文档
+# <span id="documentation">文档</span>
 ## 代理
 ### <span id="docs-agent-watches">监控</span>
 ## <span id="docs-connect">连接</span>
