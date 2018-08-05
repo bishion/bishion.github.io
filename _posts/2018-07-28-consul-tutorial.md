@@ -275,8 +275,29 @@ Key/Value 存储支持分布式锁和信号量。应用可以使用这个功能�
 # 介绍
 本文是开始 Consul 旅程的最佳起点。我们将为大家介绍 Consul 是什么，它能解决什么问题，它跟现有类似框架有什么区别，以及如何使用它。如果你已经熟悉 Consul 的基本功能，[文档](#documentation)有对Consul功能点更具体的介绍。
 ## 什么是 Consul
-Consul 是 service mesh(服务网格)的一个解决方案，它提供了诸如服务发现，配置和隔离等功能的一整套控制平面(control plane)。开发人员可以根据需要单独使用这些功能点，也可以将他们整合成为一个完整的service mesh。Consul 需要一个数据平面(data plane)，并支持代理和本地集成模型。
+Consul 是 service mesh(服务网格)的一个解决方案，它提供了诸如服务发现，配置和隔离等功能的一整套控制平面(control plane)。开发人员可以根据需要单独使用这些功能点，也可以将他们整合成为一个完整的service mesh。Consul 需要一个数据平面(data plane)，并支持代理和本地集成模型。Consul 自带了一个简单的代理以实现开箱即用的功能，不过它也支持集成第三方代理框架，比如Envoy。  
+Consul 的核心功能如下：  
+- **服务发现：** Consul 客户端可以注册一个服务，比如 api 接口或者 mysql 服务，其他的客户端可以通过 Consul 来发现这些服务的提供方。通过 DNS 或者 HTTP，引用可以很方便地找到它所依赖的服务。  
+- **健康检查：** Consul 客户端可以提供任意数量的健康检查，无论是特定服务(服务是否返回200状态)还是本地节点(比如内存使用率是否大于90%)。运维人员可以通过这些信息管理集群的健康情况，服务发现组件也可以使用这些信息过滤掉不健康节点。  
+- **KV 存储：** 应用可以使用 Consul 的树状 key/value 存储做很多事情，比如动态配置，开关，协作，leader 选举等等。KV 存储使用的是 HTTP 接口，非常简单易用。
+- **服务通信加密：** Consul 可以生成并分发 TLS 证书给服务，从而保证服务之间使用 TLS 通信。我们可以使用 [intentions 组件](#docs-connect-intention)来自定义允许哪些服务访问。使用 intentions 可以实时地操作服务隔离，这比使用复杂的网络拓扑和静态防火墙规则要简单很多。  
+- **多数据中心** Consul 支持开箱即用的多数据中心功能。这意味着当工作区域扩展至多个的时候，用户不需要费心去创建额外的抽象层来满足多中心需求。  
+Consul 设计时就考虑到了对 DevOps 社区和应用开发者友好，这让它非常适合新兴的弹性架构。  
+## Consul 的基础架构
+Consul 是一个分布式高可用的框架。本节我们省略那些不必要的细节，只讲述基本的知识点，让读者快速了解 Consul 是如何运转的。如果你想看更多的细节，可以参考[Consul 内部架构概览](#)。  
+
+每一个 Consul 节点都要运行一个 Consul agent(Consul 代理)。运行一个 agent 不需要做服务发现或者设置 key/value 数据。这个代理只是负责对当前节点自己还有它上面的服务做健康检查。  
+
+agent 与一个或多个 Consul servers(Consul 服务)通信。Consul servers 是数据存储和备份的地方。servers 内部选举一个 leader。虽然 Consul 可以只有一个 server，但是为了避免单节点故障造成数据丢失，我们建议最好部署 3-5 个 server 节点。每个数据中心都需要一个 Consul server 集群。  
+
+你的服务发现组件可以通过 Consul server或者任意一个 Consul agent 来查询服务或者节点。agent 可以将这些查询自动转发给 server。  
+
+每个数据中心都要运行一个 Consul server 集群。当一个跨数据中心的服务发现或者配置请求发出时，本地的 Consul server 会将这些请求转发给远程的数据中心，然后将结果返回。
 ## Consul 与其他框架对比 
+Consul 可以解决很多问题，但是每个问题市面上都有很多解决方案。虽然没有一个系统可以囊括 Consul 所有的特性，但是遇到其中一些问题的时候，你还是有许多别的方案可以选择。  
+在本章节中，我们将把 Consul 和有类似功能的系统一起做比较。在大多数的场景中，Consul 与那些系统并不冲突。 
+### Consul 与 zookeeper，doozerd，etcd
+Zookeeper，doozerd 和 etcd 在架构上很相似。它们三个都对服务节点数量有要求。他们
 ## <span id="started">正式入门</span>
 ### <span id="started-service">服务</span>
 #### <span id="started-service-query">服务查询</span>
@@ -286,6 +307,8 @@ Consul 是 service mesh(服务网格)的一个解决方案，它提供了诸如�
 ## <span id="guides-datacenter">多数据中心</span>
 ## <span id="guides-semaphore">信号量</span>
 # <span id="documentation">文档</span>
+## <span id="docs-internals">原理</span>
+### <span id="docs-internals-architecture">架构</span>
 ## 代理
 ### <span id="docs-agent-watches">监控</span>
 ## <span id="docs-connect">连接</span>
