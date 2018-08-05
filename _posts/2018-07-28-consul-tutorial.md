@@ -297,7 +297,11 @@ agent 与一个或多个 Consul servers(Consul 服务)通信。Consul servers �
 Consul 可以解决很多问题，但是每个问题市面上都有很多解决方案。虽然没有一个系统可以囊括 Consul 所有的特性，但是遇到其中一些问题的时候，你还是有许多别的方案可以选择。  
 在本章节中，我们将把 Consul 和有类似功能的系统一起做比较。在大多数的场景中，Consul 与那些系统并不冲突。 
 ### Consul 与 zookeeper，doozerd，etcd
-Zookeeper，doozerd 和 etcd 在架构上很相似。它们三个都对服务节点数量有要求。他们
+Zookeeper，doozerd 和 etcd 在架构上很相似。它们三个都对服务节点数量有要求。他们都具有强一致性的特点，我们可以通过客户端应用集成的工具库调用它们对外开放的 API 来构建复杂的分布式系统。  
+在一个单独的数据中心中，Consul 也有多个服务节点(server nodes)。在每个数据中心，Consul server 需要一个法定人数来运作和提供强一致性。但是 Consul 本身支持多数据中心，并且提供一个功能丰富的 gossip 系统来连接服务端和客户端节点。 
+所有这些系统在提供 key/value 存储上面实现方式大致相同：强一致性的读和为了应对网络分区而牺牲的可用性。但是，在一些复杂场景中，他们的区别非常明显。  
+当构建服务发现系统时，这些系统提供的特性很有诱惑力，但是需要强调的是，这些特性必须手动构建。Zookeeper 它们仅提供一个原始的K/V存储功能，它需要应用开发者以此手动构建服务发现功能。而Consul自带服务发现框架，大大减轻了客户端和开发人员的工作。服务端只需要简单地注册自己的服务，客户端就可以通过 DNS 或者 HTTP 接口来做服务发现。其他几个系统都需要自己实现一套解决方案。  
+
 ## <span id="started">正式入门</span>
 ### <span id="started-service">服务</span>
 #### <span id="started-service-query">服务查询</span>
