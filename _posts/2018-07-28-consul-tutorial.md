@@ -324,6 +324,11 @@ Consul 跟它十分类似，但是提供了更多的特性。Consul 也是依赖
 通过“regions”，SkyDNS 也支持多数据中心，但是数据是被一个单独的集群管理并提供查询服务的。如果两个 SkyDNS 服务器是跨数据中心的，数据复制协议就不得不忍受漫长的提交时间，如果它们在同一个数据中心，网络故障就会导致整个数据中心失去可用性。而且，就算没有网络问题，所有的请求必须在另外一个数据中心执行，我们也不得不忍受它带来的查询性能问题。  
 Consul 支持开箱即用的多数据中心功能，每个数据中心只维护自己的数据。这意味着，每个数据中心管理着独立的服务集群。如果要跨数据中心查询，则请求会被转发给远程数据中心，而同一个数据中心的请求则在局域网内执行，所以数据中心之间的网络问题不会影响到数据中心内部的服务，而且一个数据中心不可用了，也不会对别的数据中心造成影响。  
 ### Consul 与 SmartStack
+SmartStack 是一个服务发现工具。它有一个由四个组件组成的独特架构：Zookeeper，HAProxy，Synapse 和 Nerve。Zookeeper 服务负责存储集群状态并保证其一致性和容错性。SmartStack 集群的每一个节点都会运行 Nerve 和 Synapse。Nerve 负责将服务注册给 ZooKeeper 并执行单个服务的健康检查。Synapse 负责向 ZooKeeper 查询服务提供方并且动态配置 HAProxy。最终，用户调用 HAProxy，HAProxy 提供服务方之间的健康检查和负载均衡。  
+Consul 比 SmartStack 要简单很多，而且不依赖扩展组件。Consul 使用内置的 [gossip 协议](#docs-internals-gossip)去做节点监控和服务发现。不像SmartStack，使用 Consul 后，我们并不需要硬编码服务提供方的地址，也不需要总是更新。  
+Consul 和 Nerves 的服务注册都可以通过一个配置文件来完成，但是 Consul 还支持在运行中通过 API 动态修改服务和检查结果。  
+为了实现服务发现，SmartStack 客户端必须使用 HAProxy，而且要求 Synapse 提前配置好所有需要的端点。Consul 客户端提供的是 DNS 或者 HTTP 接口，不需要事先做任何配置。Consul 还提供“tag”抽象，允许服务提供元数据比如版本号，优先级，或不透明标签来做查询过滤。客户端可以选择只请求符合对应“tag”的服务提供方。  
+
 ## <span id="started">正式入门</span>
 ### <span id="started-service">服务</span>
 #### <span id="started-service-query">服务查询</span>
