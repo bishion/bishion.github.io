@@ -328,7 +328,7 @@ SmartStack 是一个服务发现工具。它有一个由四个组件组成的独
 Consul 比 SmartStack 要简单很多，而且不依赖扩展组件。Consul 使用内置的 [gossip 协议](#docs-internals-gossip)去做节点监控和服务发现。不像SmartStack，使用 Consul 后，我们并不需要硬编码服务提供方的地址，也不需要总是更新。  
 Consul 和 Nerves 的服务注册都可以通过一个配置文件来完成，但是 Consul 还支持在运行中通过 API 动态修改服务和检查结果。  
 为了实现服务发现，SmartStack 客户端必须使用 HAProxy，而且要求 Synapse 提前配置好所有需要的端点。Consul 客户端提供的是 DNS 或者 HTTP 接口，不需要事先做任何配置。Consul 还提供“tag”抽象，允许服务提供元数据比如版本号，优先级，或不透明标签来做查询过滤。客户端可以选择只请求符合对应“tag”的服务提供方。  
-
+这两个系统还有一个区别就是他们管理健康检查的方式。Nerve 跟 Consul agent 类似，是执行本地的健康检查。但是，Consul 维护着单独的目录和健康系统。
 ## <span id="started">正式入门</span>
 ### <span id="started-service">服务</span>
 #### <span id="started-service-query">服务查询</span>
