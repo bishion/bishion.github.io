@@ -332,7 +332,12 @@ Consul 和 Nerves 的服务注册都可以通过一个配置文件来完成，�
 Consul 提供功能丰富的健康检查功能，它还支持 Nagios 风格的插件，可以执行大范围的检查。Consul 允许服务级别和主机级别的检查。甚至它还有一个死亡开关检查，允许应用可以很容易地集成自定义的健康检查。最后，所有这些都被集成进健康和目录系统，然后对外提供 API，从而让运维人员深入了解更大的系统。  
 除了服务注册发现和健康检查，Consul 还提供内置的 Key/Value 存储和多数据中心。虽然可以通过配置 SmartStack 来支持多数据中心，但是如果想部署一个高容错的系统， ZooKeeper 会带来很大麻烦。  
 ### Consul 与 Serf
-[Serf](https://www.serf.io/)是一个节点和
+[Serf](https://www.serf.io/)是一个节点发现和编排工具，而且它是至今唯一一个使用去中心化最终一致的 gossip 模型的工具。它的特性包括： 成员分组，失败检测，事件广播和查询机制。但是，Serf 并没有服务发现，健康检查和 Key/Value 存储的功能。Consul 提供了上述所有功能。  
+Consul 内置的 [gossip 协议](#docs-internals-gossip)实际上是由 Serf 库控制的：Consul 使用成员分组和失败检测作为基础，在其上增加功能来实现服务发现。区别在于，Selr 的发现功能是节点级别的，而 Consul 提供的是服务和节点级别的抽象。  
+Serf 提供的健康检测非常低级，只能显示 agent 是否存活。Consul 将它扩展成为一个富健康检查系统，可以提供主机和服务级别的健康检查。健康检查被集中在中央目录中，运维可以可以很轻松地查询到集群内部的信息。  
+Serf 提供的成员分组功能是节点级别的，但是 Consul 提供服务级别的抽象，将单个节点展开成许多服务。Serf 可以通过标签来虚拟出来这个功能，但是功能就很有限了，而且也无法提供很好的接口。Consul 提供的是强一致性的目录，而 Serf 提供的是最终一致性。  
+除了服务级别的抽象和健康检查功能，Consul 还有 key/value 存储和多数据中心功能。Serf 可以跨局域网运行，但是性能会低很多。Consul 利用[多 gossip 协议](#ocs-internals-architecture)可以在保留 Serf 局域网内性能的同时，还能使用它将多个数据中心连接起来。  
+Consul 关注的是自身应用场景，而 Serf 是一个更灵活和通用的工具。在 CAP 领域，Consul 使用的是 CP 架构，牺牲可用性达到一致性。Serf 是一个 AP 系统，牺牲一致性达到可用性。这意味着如果核心服务无法达到法定数量，Consul 便无法运行，而 Serf 能在几乎所有情况下继续运行。
 ## <span id="started">正式入门</span>
 ### <span id="started-service">服务</span>
 #### <span id="started-service-query">服务查询</span>
