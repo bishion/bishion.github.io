@@ -328,7 +328,11 @@ SmartStack 是一个服务发现工具。它有一个由四个组件组成的独
 Consul 比 SmartStack 要简单很多，而且不依赖扩展组件。Consul 使用内置的 [gossip 协议](#docs-internals-gossip)去做节点监控和服务发现。不像SmartStack，使用 Consul 后，我们并不需要硬编码服务提供方的地址，也不需要总是更新。  
 Consul 和 Nerves 的服务注册都可以通过一个配置文件来完成，但是 Consul 还支持在运行中通过 API 动态修改服务和检查结果。  
 为了实现服务发现，SmartStack 客户端必须使用 HAProxy，而且要求 Synapse 提前配置好所有需要的端点。Consul 客户端提供的是 DNS 或者 HTTP 接口，不需要事先做任何配置。Consul 还提供“tag”抽象，允许服务提供元数据比如版本号，优先级，或不透明标签来做查询过滤。客户端可以选择只请求符合对应“tag”的服务提供方。  
-这两个系统还有一个区别就是他们管理健康检查的方式。Nerve 跟 Consul agent 类似，是执行本地的健康检查。但是，Consul 维护着单独的目录和健康系统。
+这两个系统还有一个区别就是他们管理健康检查的方式。Nerve 跟 Consul agent 类似，是执行本地的健康检查。但是，Consul 维护着单独的目录和健康系统。这种方式可以让运维人员看到每个服务在哪些节点上部署，以及失败检查的详细信息。Nerve简单地下线掉检查失败的节点，提供的内部操作也有限。Synapse 也要配置 HAProxy 来执行更深入的健康检查，它会请求所有的服务方去检查是否健康。在大型集群下，这种 N 对 N 的方式非常耗费资源。  
+Consul 提供功能丰富的健康检查功能，它还支持 Nagios 风格的插件，可以执行大范围的检查。Consul 允许服务级别和主机级别的检查。甚至它还有一个死亡开关检查，允许应用可以很容易地集成自定义的健康检查。最后，所有这些都被集成进健康和目录系统，然后对外提供 API，从而让运维人员深入了解更大的系统。  
+除了服务注册发现和健康检查，Consul 还提供内置的 Key/Value 存储和多数据中心。虽然可以通过配置 SmartStack 来支持多数据中心，但是如果想部署一个高容错的系统， ZooKeeper 会带来很大麻烦。  
+### Consul 与 Serf
+[Serf](https://www.serf.io/)是一个节点和
 ## <span id="started">正式入门</span>
 ### <span id="started-service">服务</span>
 #### <span id="started-service-query">服务查询</span>
