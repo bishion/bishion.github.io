@@ -29,25 +29,40 @@ Consul 是一个分布式服务网格(service mesh)，无论是跨平台还是�
 </video>
 
 ## 动态架构下的基于服务的通信
+
 静态架构向动态架构迁移过程中，通信方式从静态IP访问变成动态的服务发现，安全防护也从静态防火墙变成了动态的服务隔离。
+
 ### 静态架构
+
 基于主机IP的通信  
 ![image](/images/consul/static-net.svg)
+
 ### 动态架构
+
 基于服务的通信  
 ![image](/images/consul/dynamic-net.svg)
+
 ## 使用场景
+
 ### 服务发现-通信
+
 服务发现可以让服务注册并发现对方。  
 [更多](#more-disvocery)
+
 ### 服务隔离-安全
+
 通过动态的TLS加密和身份认证保证服务之间的通信安全。  
 [更多](#more-segmentation)
+
 ### 服务配置-运行时配置
-丰富的Key/Value存储功能让服务配置更简洁。    
+
+丰富的Key/Value存储功能让服务配置更简洁。  
 [更多](#more-configuration)
+
 ## Consul 的原则
+
 ### API 驱动
+
 服务注册，健康检查，服务授权策略，故障迁移逻辑等等功能均可以通过API调用实现自动化。  
 ``` bash
 $ curl http://localhost:8500/v1/kv/deployment
