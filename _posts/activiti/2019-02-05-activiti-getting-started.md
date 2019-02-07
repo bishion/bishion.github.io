@@ -18,7 +18,7 @@
 接着你就可以进入到下面这个 web 应用了
 | 应用名称 | URL | 描述 |
 | ----- | ----- | ----- |
-| Activiti UI | http://localhost:8080/activiti-app | 用户操作页面. 使用它你可以新建一个流程, 分配任务, 查看和审批任务 |
+| Activiti UI | http://localhost:8080/activiti-app | 用户操作页面. 使用它你可以新建一个流程, 分配、查看和审批任务 |
 
 注意, 启动 Activiti UI 应用只是一种简单快速地展示 Activiti 特性和功能的方式. 它不是使用 Activiti 的唯一方式. 因为 Activiti 只是一个 jar 包, 可以被引入到任何 Java 环境中, 无论是 Java Swing 项目还是在 Tomcat, JBoss, WebSphere 等容器中. 你也完全可以将 Activiti 当作一个独立的服务来部署. 总之, 只要 Java 支持, Activiti 就可以!
 ## Activiti 数据库设置 
