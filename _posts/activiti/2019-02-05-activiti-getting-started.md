@@ -1,3 +1,10 @@
+---
+layout: post
+title: Activiti 6.0 用户文档 - 第二章：开始
+categories: activiti
+description: 流程引擎 Activiti 第二章：开始
+keywords: 流程引擎, activiti
+---
 # 正式开始
 ## 一分钟预览
 在 [Activiti 官网](http://www.activiti.org/) 下载好 Activiti UI WAR 包之后,按照如下几个步骤就可以将 demo 以默认配置启动. 你还需要 [Java 环境](http://java.sun.com/javase/downloads/index.jsp) 和 [Tomcat](http://tomcat.apache.org/download-80.cgi) (事实上,任何一个 web 容器都可以, 我们只是依赖 servlet 功能,但是 我们只在 Tomcat 上面测试过)

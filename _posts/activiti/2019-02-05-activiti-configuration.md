@@ -1,3 +1,10 @@
+---
+layout: post
+title: Activiti 6.0 用户文档 - 第三章：开始
+categories: activiti
+description: 流程引擎 Activiti 第三章：配置
+keywords: 流程引擎, activiti
+---
 # 配置
 ## 创建 ProcessEngine
 Activiti 处理引擎是通过 *activiti.cfg.xml* 来配置的. 注意, 如果你使用[Sprng 风格创建处理引擎](https://www.activiti.org/userguide/index.html#springintegration), 这个配置就不适用了  
