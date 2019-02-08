@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Activiti 6.0 用户文档 - 第三章：开始
+title: Activiti 6.0 用户文档 - 第三章：配置
 categories: activiti
 description: 流程引擎 Activiti 第三章：配置
 keywords: 流程引擎, activiti
