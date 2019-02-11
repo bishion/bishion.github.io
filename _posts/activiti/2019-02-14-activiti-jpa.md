@@ -133,3 +133,53 @@ ProcessInstance result = runtimeService.createProcessInstanceQuery()
 ### Spring bean和JPA的一些高级示例
 在 **activiti-spring-examples** 有一个高级示例**JPASpringTest**，它实现了下面的简单用例：
 - 已经有了一个使用JPA实体的Spring bean，提供保存贷款请求的功能
+- 通过该 bean，我们可以使用Activiti操作实体，然后将它们当做流程变量使用。我们按照下面的步骤定义流程：
+  - 当启动一个任务时(比如可以使用一个表单启动),服务任务使用 **LoanRequestBean**里的变量创建贷款申请.创建好的实体类作为一个变量被保存,使用的是**activiti:resultVariable** 将结果作为一个表达式保存下来
+  - 用户任务中有一个 bean 叫 **approvedByManager**，保存着经理接到这个请求选择通过/不通过的结果
+  - 服务任务更新该贷款请求，以便实体与流程同步
+  - 排他网关根据实体属性 **approved** 来决定走哪条通道：同意就直接流程结束，否则就执行剩下的流程（发送拒绝邮件），这样用户就会收到一风拒绝信。
+
+请注意，因为这只是一个单测用例，所以流程里面并没不包含任何表单。  
+![JPA流程测试图](/images/activiti/jpa.spring.example.process.png)
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions id="taskAssigneeExample"
+  xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:activiti="http://activiti.org/bpmn"
+  targetNamespace="org.activiti.examples">
+
+  <process id="LoanRequestProcess" name="Process creating and handling loan request">
+    <startEvent id='theStart' />
+    <sequenceFlow id='flow1' sourceRef='theStart' targetRef='createLoanRequest' />
+
+    <serviceTask id='createLoanRequest' name='Create loan request'
+      activiti:expression="${loanRequestBean.newLoanRequest(customerName, amount)}"
+      activiti:resultVariable="loanRequest"/>
+    <sequenceFlow id='flow2' sourceRef='createLoanRequest' targetRef='approveTask' />
+
+    <userTask id="approveTask" name="Approve request" />
+    <sequenceFlow id='flow3' sourceRef='approveTask' targetRef='approveOrDissaprove' />
+
+    <serviceTask id='approveOrDissaprove' name='Store decision'
+      activiti:expression="${loanRequest.setApproved(approvedByManager)}" />
+    <sequenceFlow id='flow4' sourceRef='approveOrDissaprove' targetRef='exclusiveGw' />
+
+    <exclusiveGateway id="exclusiveGw" name="Exclusive Gateway approval" />
+    <sequenceFlow id="endFlow1" sourceRef="exclusiveGw" targetRef="theEnd">
+      <conditionExpression xsi:type="tFormalExpression">${loanRequest.approved}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="endFlow2" sourceRef="exclusiveGw" targetRef="sendRejectionLetter">
+      <conditionExpression xsi:type="tFormalExpression">${!loanRequest.approved}</conditionExpression>
+    </sequenceFlow>
+
+    <userTask id="sendRejectionLetter" name="Send rejection letter" />
+    <sequenceFlow id='flow5' sourceRef='sendRejectionLetter' targetRef='theOtherEnd' />
+
+    <endEvent id='theEnd' />
+    <endEvent id='theOtherEnd' />
+  </process>
+
+</definitions>
+```
+虽然上面的例子很简单，但是我们已经能看出JPA跟Spring和参数化方法结合使用时功能还是很强大的。流程基本上不用java代码了（当然了，除了Spring的bean），从而大幅提升开发效率
