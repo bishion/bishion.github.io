@@ -108,6 +108,3 @@ public class ReflectiveFeign extends Feign {
 2. *FeignClientsRegistrar* 在启动时，将被加了 *FeignClient* 注解的(而且符合配置条件的)接口注册成 bean
 3. *FeignClientFactoryBean* 梳理 url 信息，并选择 HTTP 组件，将信息一并交给 *ReflectiveFeign* 生成代理类
 4. *ReflectiveFeign* 收到请求后，以 HardCodedTarget 为蓝本，使用 jdk 动态代理，生成代理对象
-
-
-
