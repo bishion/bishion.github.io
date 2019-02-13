@@ -73,4 +73,25 @@ LDAP 集成目前有两个主要场景：
 |baseDn|可以从中查询用户和用户组的*专有名称*|String||
 |userBaseDn|可以从中查询用户的*专有名称*，如果没提供，就使用上述的 baseDN|String||
 |groupBaseDn|可以从中查询用户组的*专有名称*，如果没提供，就使用上述的 baseDN|String||
-|queryUserByUserId|如果通过用户用户Id查询用户的时候，调用此方法。比如：(&(objectClass=inetOrgPerson)(uid={0}))这里，LDAP中符合*uid* 条件的*inetOrgPerson*的对象都会被返回。 
+|searchTimeLimit|查询LDAP的超时时间设置（毫秒数）|long|一小时|
+|queryUserByUserId|通过用户用户Id查询用户的时候，调用此方法。比如：(&(objectClass=inetOrgPerson)(uid={0}))这里，LDAP中符合*uid* 条件的*inetOrgPerson*的对象都会被返回。 就像示例中的那样，userId通过{0}注入。如果该参数无法满足你的要求，你还可以使用LDAPQueryBuilder，它支持自定义配置。|String||
+|queryUserByFullNameLike|使用名称查询用户的时候调用该方法。比如：(& (objectClass=inetOrgPerson) (({0}={1})({2}={3})) )。此时，LDAP中所有匹配对应姓和名的*inetOrgPerson*均会被返回。注意{0}表示firstNameAttribute（前文定义好的），{1}和{3}表示搜索内容，{2}表示lastNameAttribute。如果该参数无法满足你的要求，你还可以使用LDAPQueryBuilder，它支持自定义配置。|String||
+|queryGroupsForUser|查询用户所在用户组时调用该方法。比如(&(objectClass=groupOfUniqueNames)(uniqueMember={0}))，这里，LDAP中DN（user的DN）是*uniqueMember*的*groupOfUniqueNames*对象都会被返回。就像示例里展示的那样，userId通过{0}注入。如果该参数无法满足你的要求，你还可以使用LDAPQueryBuilder，它支持自定义配置。|String||
+|userIdAttribute|userId对应的参数名。当LDAP对象和ActivitiUser对象的映射完成之后，可以使用此对象来查询User对象|String||
+|userFirstNameAttribute|用户firstname对应的参数名。当LDAP对象和ActivitiUser对象的映射完成之后，可以使用此对象来查询User对象|String||
+|userLastNameAttribute|用户lastname对应的参数名。当LDAP对象和ActivitiUser对象的映射完成之后，可以使用此对象来查询User对象|String||
+|groupIdAttribute|用户组id对应的参数名。当LDAP对象和ActivitiUser对象的映射完成之后，可以使用此对象来查询Group 对象|String||
+|groupNameAttribute|用户组名称对应的参数名。当LDAP对象和ActivitiUser对象的映射完成之后，可以使用此对象来查询Group 对象|String||
+|groupTypeAttribute|用户组类型对应的参数名。当LDAP对象和ActivitiUser对象的映射完成之后，可以使用此对象来查询Group 对象|String||
+
+如果你想要自定义默认属性或者了解组缓存，可以看看下面这些属性：
+|属性名|描述|类型|默认值|
+|-----|---|----|-----|
+|ldapUserManagerFactory|如果默认的实现不满足要求，你可以自己实现LDAPUserManagerFactory|LDAPUserManagerFactory的实例||
+|ldapGroupManagerFactory|如果默认的实现不满足要求，你可以自己实现 LDAPGroupManagerFactory|LDAPGroupManagerFactory的实例||
+|ldapMemberShipManagerFactory|如果默认的实现不满足要求，你可以自己实现 LDAPMembershipManagerFactory。注意，鉴于成员的关系是由LDAP系统自己维护的，该种方式比较难实现|LDAPMembershipManagerFactory |LDAPMembershipManagerFactory的实例|
+|ldapQueryBuilder|如果默认的实现不满足要求，你可以使用该属性。当LDAPUserManager或LDAPGroupManage对LDAP系统执行实际查询时，会用到 LDAPQueryBuilder 的实例。默认的实现类使用该实例上设置的属性，比如queryGroupsForUser 和 queryUserById|org.activiti.ldap.LDAPQueryBuilder的实例||
+|groupCacheSize|设置用户组缓存的大小。它是一个保存了用户对应用户组的LRU缓存，来减小对LDAP系统的查询。当该值小于0时，不会实例化缓存。默认是-1，所以不会缓存。|-1|
+|groupCacheExpirationTime|用户组缓存失效的毫秒数。当要查询某个用户所在组的时候，如果设置了缓存，那么该用户组就会被放到缓存中，并存活该设置的时间。比如，超时时间是30分钟，当用户组是在0:00被查询到的，那么0:30以后再来查询该用户组时，就不会去缓存而是去LDAP中查找。同样地，0:00-0:30内对该用户所在组的查询都是从缓存中获取的。|long|一小时|
+
+当使用Activiti Directory时请注意：Activiti论坛的同学反馈说，对于Activiti Directory，需要将InitialDirContext设置为Context.REFERRAL。该属性可以通过上述的customConnectionParameters映射来传递。
