@@ -168,3 +168,17 @@ public class BusinessTripRequest implements Serializable {
 }
 ```
 有时，在缺少流程实例时(比如在流程启动之前)，我们需要使用流程范围的bean。如果当前没有活动的流程实例，BusinessProcessScoped 的实例被临时存储在本地范围内(比如会话或者请求中，这取决于上下文)。如果该作用域接下来关联上了一个业务流程实例，该bean就会刷入到流程实例中。
+### 注入流程实例
+流程实例还可以被注入。Activiti-CDI支持下面几种：
+- 使用 **@Inject \[additional qualifiers\] Type fieldName** 注入类型安全的 **BusinessProcessScoped**
+- 使用 **ProcessVariable(name?)** 注入类型不安全的其他流程变量：
+```java
+@Inject @ProcessVariable Object accountNumber;
+@Inject @ProcessVariable("accountNumber") Object account
+```
+为了使用EL引用流程变量，我们可以更简单的选择：
+- **@Named @BusinessProcessScoped**注解的bean可以直接引用
+- 使用 **ProcessVariables**bean可以引用其他流程变量
+```javascript
+#{processVariables['accountNumber']}
+```
