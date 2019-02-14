@@ -182,3 +182,49 @@ public class BusinessTripRequest implements Serializable {
 ```javascript
 #{processVariables['accountNumber']}
 ```
+### 获取流程事件
+[实验功能](https://www.activiti.org/userguide/#experimental)  
+Activiti 可以连接到 CDI 事件总线。这个功能可以让我们使用基础的CDI事件机制监听到流程事件。如果想让Activiti使用CDI的事件支持，需要在配置中加上相应的解析监听器：
+```xml
+<property name="postBpmnParseHandlers">
+	<list>
+		<bean class="org.activiti.cdi.impl.event.CdiEventSupportBpmnParseHandler" />
+	</list>
+</property>
+```
+这样Activiti就可以使用CDI 事件总线发布事件。下面介绍下CDI的bean如何获取到流程事件。在CDI中，我们可以使用 **@Observes**注解声明一个特定的事件监听器。事件通知是类型安全的，流程事件的类型是 **org.activiti.cdi.BusinessProcessEvent**。下面是一个简单的事件监听方法的示例：
+```java
+public void onProcessEvent(@Observes BusinessProcessEvent businessProcessEvent) {
+	// handle event
+}
+```
+该监听器可以接收所有的事件。如果你想只接收某类事件，可以添加合适的注解：
+- @BusinessProcess：针对特定流程定义的监听。比如：**@Observes @BusinessProcess("billingProcess") BusinessProcessEvent evt**
+- @StartActivity：针对特定活动的监听。比如：当进入一个id为 "shipGoods"活动的时候，就会执行**@Observes @StartActivity("shipGoods") BusinessProcessEvent evt**
+- @EndActivity：针对特定活动的监听。比如，当离开一个id为"shipGoods"的活动的时候，就会执行 **@Observes @EndActivity("shipGoods") BusinessProcessEvent evt**
+- @TakeTransition：针对特定事务的监听
+- @CreateTask：针对创建特定任务的监听
+- @DeleteTask：针对删除特定任务的监听
+- @AssignTask：针对特定任务分配的监听
+- @CompleteTask：针对特定任务完成的监听
+
+上面提到的限定符可以自由组合。比如，为了监听离开"shipmentProcess"流程下的"shipGoods"活动的所有事件，我们可以使用下面的监听方法：
+```java
+public void beforeShippingGoods(@Observes @BusinessProcess("shippingProcess") @EndActivity("shipGoods") BusinessProcessEvent evt) {
+	// handle event
+}
+```
+在默认配置中，事件监听是在同一个上下文事务中同步执行。我们可以在监听方法中拿到事件的时候，使用CDI事务监听器（只在与JavaEE/EJB结合使用的时候可用）。使用事务监听器，我们可以做很多事情，比如当事件中的事务被成功完成之后再触发监听器：
+```java
+public void onShipmentSuceeded(@Observes(during=TransactionPhase.AFTER_SUCCESS) @BusinessProcess("shippingProcess") @EndActivity("shipGoods") BusinessProcessEvent evt) {
+	// send email to customer.
+}
+```
+### 其他的特性
+- ProcessEngine和服务一样可以被注入：**@Inject ProcessEngine, RepositoryService, TaskService**...
+- 当前流程实例和任务可以被注入：**@Inject ProcessInstance, Task**
+- 当前的业务主键可以被注入：**@Inject @BusinessKey String businessKey**
+- 当前的流程实例id可以被注入：**@Inject @ProcessInstanceId String pid**
+
+## 已知的缺憾
+尽管 activiti-cdi 是针对 SPI 实现的，而且按照 "便携式-扩展" 原则设计，但是我们只是使用 Weld 测试过。
