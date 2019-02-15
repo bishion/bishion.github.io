@@ -80,7 +80,7 @@ service:jmx:rmi:///jndi/rmi://:<hostname>:<registryPort>/<serviceUrlPath>
 ## Maven 脚手架
 ### 创建测试用例
 开发过程中，在动手开发实际逻辑之前，创建一个小的测试用例来测试一个想法或者特性是很有帮助的，它有助于将被测试的东西隔离。对于传递bug报告和功能请求，Junit 单测用例也是一个首选工具。将测试用例附加到bug报告或jira问题上，可以大大缩短其修复时间。   
-为了加快测试用例的创建时间，我们提供了一个maven脚手架。通过使用该脚手架，你可以很快地创建一个标准的测试用例。该脚手架必须已经在本地maven库中，如果没有，你可以在本地maven 仓库的 **tooling/archtypes** 目录中执行 **mvn install**。  
+为了加快测试用例的创建时间，我们提供了一个maven脚手架。通过使用该脚手架，你可以很快地创建一个标准的测试用例。该脚手架必须已经在本地maven库中，如果没有，你可以在 **tooling/archtypes** 目录中执行 **mvn install**，从而将该脚手架安装到你本地maven 仓库目录。  
 下面的就名就可以创建一个单测项目：
 ```shell
 mvn archetype:generate \
