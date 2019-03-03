@@ -60,7 +60,7 @@ public class Singleton {
 ``` java
 public class Singleton {
     private static Singleton singleton;
-    private SingletonLock(){}
+    private Singleton(){}
     public synchronized Singleton getInstance(){
             if(singleton == null){
                 singleton = new Singleton();
