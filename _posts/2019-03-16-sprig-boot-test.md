@@ -5,7 +5,7 @@ categories: spring
 description: spring boot 常见单测方式介绍
 keywords: spring boot
 ---
-# spring boot 项目常见单测方式
+# spring boot 项目常见单测场景
 
 ## 背景
 最近组里在推单测，突然想起自己已经三十多年不写单测了，不由心生惭愧。  
@@ -19,6 +19,7 @@ keywords: spring boot
 - spring cloud 组件只使用了 spring cloud config
 - 依赖 spring-boot-starter-test 组件
 - 依赖 mybatis-spring-boot-starter-test 组件
+
 
 ## 场景一：简单的 Controller
 入门场景，测试一个Controller，它没有依赖，没有参数。  
@@ -63,7 +64,7 @@ public class HealthControllerTest {
 - 请求参数
 - 返回 Json数据
 - 甚至某些字段是从 配置中心获取的  
-- 
+
 ```java
 @RestController
 public class UserController {
@@ -81,6 +82,8 @@ public class UserController {
         return transfer(users);    // DOList 转 DTOList
     }
 }
+```
+测试代码：
 ```java
 @RunWith(SpringRunner.class)
 @WebMvcTest(UserController.class)
@@ -172,10 +175,10 @@ public class CallRemoteServiceTest {
 1. 如果需要测试一个 Service, 需要使用 **@Import** 将该 Service 引入到上下文
 2. 因为该 Service 调用了别的 Service，所以需要 **@MockBean**
 
-## 场景四：mybatis
+## 场景四：mybatis 的单测
 针对 dao 层的单测：
-1. 使用了 mybatis-spring-boot-starter 依赖
-2. 使用了 注解和 XML 两种方式的 mapper
+1. 项目使用了 注解和 XML 两种方式的 mapper
+2. 单测需要添加 mybatis-spring-boot-starter 依赖
 
 ```java
 @Mapper
@@ -296,4 +299,4 @@ public class UserController {
 1. 因为时间仓促，只是简单看了下文档做了个总结，所以很多问题没有深究
 2. 这里只是列了一些典型场景，后续本文档会更新，放在 https://bishion.github.io/2019/03/16/sprig-boot-test/
 3. 本文源码放在 https://github.com/bishion/springboot-test.git
-3. spring boot 关于测试这一块的文档写的太抽象了
+4. spring boot 关于测试这一块的文档写的太抽象了
