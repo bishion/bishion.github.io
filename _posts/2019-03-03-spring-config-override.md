@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 重写 spring Boot 配置属性
+title: 重写 spring boot 配置属性
 categories: spring
 description: 重写 spring boot 中 bean 的属性，适用于配置的加解密场景
 keywords: spring boot
