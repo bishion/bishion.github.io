@@ -232,6 +232,69 @@ public class UserDaoTest {
 3. 因为 **兼容性** 问题，请不要将 **@MapperScan** 注解放到Application启动类上，否则会报错
 4. 如果你使用的是内置数据库，需要在 src/test/resources 下面添加 schema.sql，里面放入建表语句
 
-## 集成测试
+## 场景五：Feign 的测试
+虽然说起来很傻，但是有时候还真的需要单独测试 Feign
+```java
+@FeignClient(name = "remote-service",url = "https://www.baidu.com")
+public interface BaiduService {
+    @RequestMapping("/")
+    String request();
+}
+```
+测试代码：
 
+```java
+@RunWith(SpringRunner.class)
+@RestClientTest(BaiduService.class)
+@ImportAutoConfiguration({RibbonAutoConfiguration.class, FeignRibbonClientAutoConfiguration.class, FeignAutoConfiguration.class})
+public class BaiduServiceTest {
 
+    @Autowired
+    private BaiduService baiduService;
+
+    @Test
+    public void request(){
+        Assert.hasText(baiduService.request(),"未查到数据");
+    }
+}
+```
+### 注意：
+1. 因为测试 Feign 需要相关的上下文，所以要手动引入
+2. 需要使用 **@RestClientTest** 将被测接口加进来
+3. 个人觉得直接使用 RestTemplate 也挺好
+
+## 场景六：集成测试
+需要将整个项目启动，然后再单测
+```java
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
+public class UserController {
+    @Autowired
+    private TestRestTemplate template;
+
+    @Test
+    public void testAddUser(){
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUsername("bishion");
+        String result = template.postForEntity("/addUser",userDTO, String.class).getBody();
+        Assert.isTrue("SUCCESS".endsWith(result),"返回不成功"+result);
+    }
+    @Test
+    public void testQueryUser(){
+        MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
+        map.add("username", "bishion");
+        List<UserDTO> result = template.postForEntity("/query",map, List.class).getBody();
+        Assert.isTrue(result.size()>0,"没有查出数据");
+
+    }
+}
+```
+### 注意
+1. 如果你之前设置了 schema.sql，这里一定要显式设置 **AutoConfigureTestDatabase** 为 Replace.ANY
+2. 有了 **@SpringBootTest**，可以将 TestRestTemplate 自动注入
+
+## 总结
+1. 因为时间仓促，只是简单看了下文档做了个总结，所以很多问题没有深究
+2. 这里只是列了一些典型场景，后续本文档会更新，放在 https://bishion.github.io/2019/03/16/sprig-boot-test/
+3. spring boot 关于测试这一块的文档写的太抽象了
