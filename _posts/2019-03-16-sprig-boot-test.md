@@ -20,8 +20,6 @@ keywords: spring boot
 - 依赖 spring-boot-starter-test 组件
 - 依赖 mybatis-spring-boot-starter-test 组件
 
-源码地址：https://github.com/bishion/springboot-test.git
-
 ## 场景一：简单的 Controller
 入门场景，测试一个Controller，它没有依赖，没有参数。  
 我只想测试该 Controller，并不想将整个应用启动
@@ -297,4 +295,5 @@ public class UserController {
 ## 总结
 1. 因为时间仓促，只是简单看了下文档做了个总结，所以很多问题没有深究
 2. 这里只是列了一些典型场景，后续本文档会更新，放在 https://bishion.github.io/2019/03/16/sprig-boot-test/
+3. 本文源码放在 https://github.com/bishion/springboot-test.git
 3. spring boot 关于测试这一块的文档写的太抽象了
