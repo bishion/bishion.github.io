@@ -10,7 +10,9 @@ Activiti 提供了一种方便且灵活的方式来为业务流程的手动步�
 
 ## 表单属性
 与业务流程相关的所有信息都包含在流程变量或它们的引用中。Activiti支持将复杂的Java对象存储为流程对象，比如**Serializable**对象，JPA实体或者String类型的整个XML文档。  
+
 启动流程和完成用户任务是人们参与流程的地方。使用一些UI技术来呈现表单，然后通过它与人们交互。为了简化多种UI技术，流程定义里有一种逻辑，可以将流程变量中复杂的Java对象转化成 **properties**类型的 **Map<String，String>**。
+
 使用Activiti API 中暴露属性信息的方法，任何一种UI技术都可以在这些属性之上构建表单。这些属性可以为流程变量提供专用(且更局限)的视图。比如，**FormData**返回值中提供了展示表单所需要的属性。  
 ```java
 StartFormData FormService.getStartFormData(String processDefinitionId)
