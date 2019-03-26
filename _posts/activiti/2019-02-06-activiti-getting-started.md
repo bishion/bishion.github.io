@@ -24,6 +24,7 @@ keywords: 流程引擎, activiti
 | amin | test | admin |
 
 接着你就可以进入到下面这个 web 应用了
+
 | 应用名称 | URL | 描述 |
 | ----- | ----- | ----- |
 | Activiti UI | http://localhost:8080/activiti-app | 用户操作页面. 使用它你可以新建一个流程, 分配、查看和审批任务 |

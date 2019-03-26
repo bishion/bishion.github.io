@@ -41,6 +41,7 @@ service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi/activiti
 ||方法|deployProcessDefinition(String resourceName, String processDefinitionFile)|根据文件发布一个流程定义|
 |JobExecutorMBean|属性|isJobExecutorActivated|如果作业执行程序被激活，则返回true，否则返回false|
 ||方法|setJobExecutorActivate(Boolean active)|根据参数激活或者取消激活作业执行程序|
+
 ### 配置
 JMX中有很多很多默认配置，这让经常用的配置可以轻松发布。但是，我们也可以很轻松地使用代码或者配置文件修改默认配置。下面就是一个在配置文件中修改默认配置的示例：
 ```xml
