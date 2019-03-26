@@ -7,6 +7,7 @@ keywords: 流程引擎, activiti
 ---
 # Activiti API
 ## 流程引擎的 API 和 服务
+
 API 是使用Activiti的最常用方式。 核心的切入点是 **ProcessEngine**，这个类有很多创建方式，我们在上文[配置](https://www.activiti.org/userguide/index.html#configuration)那一章已经介绍过。你可以通过 ProcessEngine 提供的方法获得各种工作流/BPM服务。ProcessEngine和服务对象都是现成安全的，所以你可以放心在全局使用同一个对象。  
 ![Activiti服务示例](/images/activiti/api.services.png)   
 ```java

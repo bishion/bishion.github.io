@@ -7,6 +7,7 @@ keywords: 流程引擎, activiti, designer
 ---
 # Eclipse 设计器
 Activiti有一个Eclipse插件：Eclipse Activiti Designer，你可以使用它设计、测试和发布 BPMN2.0流程。
+
 ## 安装
 下面的安装介绍在 [Eclipse Kepler和Indigo](http://www.eclipse.org/downloads)版本上已经测过了。注意，该插件 **不支持**Eclipse Helios。  
 选择 **HELP** --> **Install New Software**，在弹出的面板中点击 *Add...* 按钮，然后填写如下值：

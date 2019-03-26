@@ -7,6 +7,7 @@ keywords: 流程引擎, activiti
 ---
 # CDI 集成
 activiti-cdi 模块同时使用了 Activiti 的可配置性和cdi的可扩展性，它最突出的特性如下：
+
 - 支持@BusinessProcessScoped注解的bean（Cdi 生成的生命周期绑定到流程实例上的bean）
 - 可以从流程中解析 Cdi bean（包括EJB）的自定义EI解析器
 - 使用注解对流程实例的声明式控制

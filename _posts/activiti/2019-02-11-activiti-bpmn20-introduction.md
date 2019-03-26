@@ -8,6 +8,7 @@ keywords: 流程引擎, activiti, bpmn
 # BPMN2.0 介绍
 ## 什么是BPMN ?
 参考我们的[BPMN2.0答疑入口](http://activiti.org/faq.html#WhatIsBpmn20)
+
 ## 定义流程
 > 本章首先假设你使用 Eclipse IDE来创建和编辑文件。但是，只有极少数的内容是针对Eclipse的。你可以使用喜欢的任何工具来创建BPMN2.0的xml文件。
 

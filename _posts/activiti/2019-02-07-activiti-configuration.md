@@ -8,6 +8,7 @@ keywords: 流程引擎, activiti
 # 配置
 ## 创建 ProcessEngine
 Activiti 处理引擎是通过 *activiti.cfg.xml* 来配置的. 注意, 如果你使用[Sprng 风格创建处理引擎](https://www.activiti.org/userguide/index.html#springintegration), 这个配置就不适用了  
+
 *ProcessEngine* 的最方便的创建方式是使用 *org.activiti.engine.ProcessEngines* 类:
 ```
 ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine()

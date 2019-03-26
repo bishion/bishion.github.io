@@ -8,6 +8,7 @@ keywords: 流程引擎, activiti
 # 正式开始
 ## 一分钟预览
 在 [Activiti 官网](http://www.activiti.org/) 下载好 Activiti UI WAR 包之后,按照如下几个步骤就可以将 demo 以默认配置启动. 你还需要 [Java 环境](http://java.sun.com/javase/downloads/index.jsp) 和 [Tomcat](http://tomcat.apache.org/download-80.cgi) (事实上,任何一个 web 容器都可以, 我们只是依赖 servlet 功能,但是 我们只在 Tomcat 上面测试过)
+
 - 将下载的 activiti-app.war 包放到 Tomcat 的 webapps 目录下面
 - 运行 Tomcat bin 目录下的 startup.bat 或者 startup.sh 脚本
 - 当 Tomcat 启动后, 打开浏览器, 在地址栏输入: http://localhost:8080/activiti-app , 输入用户名 admin 和密码 test

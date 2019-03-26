@@ -7,6 +7,7 @@ keywords: 流程引擎, activiti
 ---
 # 工具
 ## JMX
+
 ### 介绍
 我们还可以使用 Java 管理扩展(Java Management Extensions,JMX) 来连接Activiti引擎，这样就可以查询信息或者修改它的行为。任何标准的JMX客户端都可以做到这一点。不用写一行代码，我们就可以使用JMX做很多事情，比如启用和禁用Job Executor，发布和删除新的流程定义文件。
 ### 快速开始
@@ -26,6 +27,7 @@ service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi/activiti
 不仅仅是jconsole，任何JMX客户端都可以访问MBeans。很多数据中心监控工具都可以连接到JMX MBeans。
 ### 属性和方法
 下面是一组现在可以用的属性和方法列表。如果需要的话，该列表在未来的版本中可能会扩展。
+
 |MBean|类型|名称|描述|
 |-----|---|----|---|
 |ProcessDefinitionsMBean|属性|processDefinitions|发布流程定义需要的属性列表**Id, Name, Version, IsSuspended**|
