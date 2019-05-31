@@ -11,7 +11,6 @@ keywords: springcloud, feign, openfeign, headers
 最近在调用一个接口，接口要求将token放在header中传递。由于我的项目使用了feign, 那么给请求中添加 header 就必须要去feign中找方法了。
 
 ## 方案一：自定义 RequestInterceptor
-### FeignClientFactoryBean.getObject()
 在给 @FeignClient 注解的接口生成代理对象的时候，有这么一段：
 ```java
 class FeignClientFactoryBean implements FactoryBean<Object>, InitializingBean, ApplicationContextAware {
@@ -135,4 +134,22 @@ public interface FeignTest {
 虽然不用给全局的请求增加header，但是对于相同的服务方，却要在每个@RequestMapping注解中添加相同的header配置，会比较麻烦，能否添加全局的呢?
 
 ## 方案三：自定义 Contract
-通过 SpringMvcContract 代码我们也很容易发现，对于类的注解，
+通过 SpringMvcContract 代码我们也很容易发现，对于类的注解，它只会处理 *RequestMapping*，其它也都忽略了。  
+那么如果我们重新定义自己的 Contract，就可以随心所欲实现自己的想要的功能啦。
+1. 方便起见，我们直接复用 openfeign 的 *@Header* 
+2. 简单起见，我们直接继承 *SpringMvcContract*
+3. 自定义自己的 Contract，然后注入到 spring 上下文中
+```java
+
+```
+### 优点
+可以根据自己的需要自由定义
+
+### 缺点
+自定义带来一定的学习成本，也比较麻烦
+
+## 方案四：在接口上使用 @RequestMapping，并加上 headers 属性
+## 总结
+1. 本文主要是探讨了 Contract 的一些功能，以及 springcloud 对它的一个处理
+2. 网上很多在说 *@Headers* 无效，但是基本上都没说原因，这里对它做一个解释
+3. 绕了一圈，还是回归到最简单的办法，使用 *@Requesting*。虽然它不能满足我的技术强迫症，但是对于当前的需求来说，是最佳的解决方案了
