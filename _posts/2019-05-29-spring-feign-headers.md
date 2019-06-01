@@ -140,15 +140,89 @@ public interface FeignTest {
 2. 简单起见，我们直接继承 *SpringMvcContract*
 3. 自定义自己的 Contract，然后注入到 spring 上下文中
 ```java
+@Service
+// 为了处理简单，我们直接继承 SpringMvcContract
+public class MyContract extends SpringMvcContract {
+    // 该属性是为了使用 springcloud config
+    private ResourceLoader resourceLoader;
 
+    @Override
+    protected void processAnnotationOnClass(MethodMetadata data, Class<?> clz) {
+        if (clz.getInterfaces().length == 0) {
+            。。。 这里复用原有 SpringMvcContract 逻辑
+
+        }
+        // 以下是新加的逻辑(其实是使用的 openfeign 自带的 Contract.Default的逻辑)
+        if (clz.isAnnotationPresent(Headers.class)) {
+            String[] headersOnType = clz.getAnnotation(Headers.class).value();
+            Map<String, Collection<String>> headers = toMap(headersOnType);
+            headers.putAll(data.template().headers());
+            data.template().headers(null); // to clear
+            data.template().headers(headers);
+        }
+    }
+    private Map<String, Collection<String>> toMap(String[] input) {
+        Map<String, Collection<String>> result =
+                new LinkedHashMap<String, Collection<String>>(input.length);
+        for (String header : input) {
+            。。。。这里使用的 openfeign 自带的 Contract.Default的逻辑，但是为了使用 springcloud config，又调用了 resolve方法
+            result.get(name).add(resolve(header.substring(colon + 1).trim()));
+        }
+        return result;
+    }
+    private String resolve(String value) {
+        if (StringUtils.hasText(value)
+                && resourceLoader instanceof ConfigurableApplicationContext) {
+            return ((ConfigurableApplicationContext) this.resourceLoader).getEnvironment()
+                    .resolvePlaceholders(value);
+        }
+        return value;
+    }
+    @Override
+    public void setResourceLoader(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+        // 注意，因为SpringMvcContract 也使用了 resourceLoader，所以必须给它指定解析器，否则不会解析占位符
+        super.setResourceLoader(resourceLoader);
+    }
+}
+
+@FeignClient(name = "feign",url = "127.0.0.1:8080")
+// 使用的时候直接对 接口做 header的配置即可
+@Headers({"app: test-app","token: ${test-app.token}"})
+public interface FeignTest {
+    @RequestMapping(value = "/test")
+    String test();
+}
 ```
 ### 优点
 可以根据自己的需要自由定义
 
 ### 缺点
-自定义带来一定的学习成本，也比较麻烦
+自定义带来一定的学习成本，而且因为是直接继承 spring 的实现，为以后升级留下隐患
 
 ## 方案四：在接口上使用 @RequestMapping，并加上 headers 属性
+聪明的读者也许在方案二的结尾就能反应过来：springcloud 支持*@RequestMapping*注解的 header，而该注解完全可以用在类上面!  
+经过测试，这种方式是可以的：
+```java
+@FeignClient(name = "feign",url = "127.0.0.1:8080")
+@RequestMapping(value = "/",headers = {"app=test-app","token=${test-app.token}"})
+public interface FeignTest {
+    @RequestMapping(value = "/test")
+    String test();
+}
+``` 
+### 优点
+完全不用自定义，原生支持
+
+### 缺点
+基本没有。  
+可能对于有些不习惯在类上使用 *@RequestMapping* 注解的同学来说，有点强迫症，不过基本可以忽略
+
+### 思考：为什么没有一开始想到将注解放到接口定义那里
+1. 思维定势，工作内容问题，很少会在feign接口上使用 *@RequestMapping*
+2. SpringMvcContract 中的 *processAnnotationOnClass* 方法中没有关于对 header的处理，导致一开始忽略这个
+3. SpringMvcContract 是在 *parseAndValidatateMetadata* 中解决类上面的 header 的问题
+
 ## 总结
 1. 本文主要是探讨了 Contract 的一些功能，以及 springcloud 对它的一个处理
 2. 网上很多在说 *@Headers* 无效，但是基本上都没说原因，这里对它做一个解释
