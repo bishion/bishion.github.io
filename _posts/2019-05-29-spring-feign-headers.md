@@ -229,6 +229,6 @@ public interface FeignTest {
 3. SpringMvcContract 是在 *parseAndValidatateMetadata* 中解决类上面的 header 的问题
 
 ## 总结
-1. 本文主要是探讨了 Contract 的一些功能，以及 springcloud 对它的一个处理
+1. 本文主要是探讨了 Contract 的一些功能，以及 springcloud 对它的处理
 2. 网上很多在说 *@Headers* 无效，但是基本上都没说原因，这里对它做一个解释
 3. 绕了一圈，还是回归到最简单的办法，使用 *@RequestMapping*
