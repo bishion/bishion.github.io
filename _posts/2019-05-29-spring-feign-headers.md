@@ -12,6 +12,7 @@ keywords: springcloud, feign, openfeign, headers
 
 ## 方案一：自定义 RequestInterceptor
 在给 @FeignClient 注解的接口生成代理对象的时候，有这么一段：
+
 ```java
 class FeignClientFactoryBean implements FactoryBean<Object>, InitializingBean, ApplicationContextAware {
     @Override
@@ -41,6 +42,7 @@ final class SynchronousMethodHandler implements MethodHandler {
 ```
 
 所以自定义自己的拦截器，然后注入到  spring 上下文中，这样就可以在请求的上下文中添加自定义的请求头：
+
 ```java
 @Service
 public class MyRequestInterceptor implements RequestInterceptor {
@@ -60,6 +62,7 @@ public class MyRequestInterceptor implements RequestInterceptor {
 
 ## 方案二：在 @RequestMapping 注解中增加 header 信息
 既然我们用到了 openfeign 框架，那我们找找 openfeign 官方是怎么解决的(https://github.com/OpenFeign/feign)：
+
 ```java
 // openfeign 官方文档
 public interface ContentService {
@@ -70,6 +73,7 @@ public interface ContentService {
 ```
 
 通过上述官方代码示例，我们可以发现，其实使用原生的 API 就可以满足我们的需求：
+
 ```java
 @FeignClient(name = "feign",url = "127.0.0.1:8080")
 public interface FeignTest {
@@ -81,6 +85,7 @@ public interface FeignTest {
 然而比较遗憾的是，@Headers 并没有生效，生成的RequestTemplate中，没有上述两个 Header 信息。  
 跟踪代码，我们发现，ReflectFeign在生成远程服务的代理类的时候，会通过 *Contract* 接口准备数据。  
 而*@Headers* 注解没有生效的原因是：官方的 Contract 没有生效：
+
 ```java
 class FeignClientFactoryBean implements FactoryBean<Object>, InitializingBean, ApplicationContextAware {
     protected Feign.Builder feign(FeignContext context) {
@@ -95,6 +100,7 @@ class FeignClientFactoryBean implements FactoryBean<Object>, InitializingBean, A
 
 }
 ```
+
 对于 springcloud-openfeign 来说，在创建 Feign 相关类的时候，使用的是容器中注入的 Contract：
 ```java
 @Bean
@@ -144,6 +150,7 @@ public interface FeignTest {
 1. 方便起见，我们直接复用 openfeign 的 *@Header* 
 2. 简单起见，我们直接继承 *SpringMvcContract*
 3. 自定义自己的 Contract，然后注入到 spring 上下文中
+
 ```java
 @Service
 // 为了处理简单，我们直接继承 SpringMvcContract
