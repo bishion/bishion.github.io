@@ -209,3 +209,6 @@ Correct the classpath of your application so that it contains a single, compatib
 #### 解决办法
 我后来发现，是因为调用 *addString* 时指定的 **resourceName** 没有以 **.bpmn** 结尾，导致 Camunda 无法通过的后缀来判断使用的是哪种流程配置标准，继而无法对流程配置做相关的解析。不过这种不报任何错的方式让我排查了很久才找到原因。  
 
+## 总结
+Camunda 整体用起来还是很流畅的。而且还配套了 **Camunda Modeler** 作为可视化配置工具。  
+其实流程引擎还是有很多 js 插件来满足用户在 web 页面进行流程可视化配置的需求，有兴趣的读者可以试着搜索 *bpmn-io* 、 *bpmn-js* 来找找看。
