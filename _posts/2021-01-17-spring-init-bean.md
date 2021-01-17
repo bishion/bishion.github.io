@@ -71,9 +71,9 @@ public class RemoteServiceTest1 {
 4. 有没有更简单无脑的方式呢？
 
 ### 思考
-因为远程服务是被封装为 bean，所以很容易想到可以在 RemoteService 注入到容器前，将它用另外一个 mock 的类替换。
+因为远程服务是被封装为 bean，我们可以在 RemoteService 注入到容器前，将它用另外一个 mock 的类替换。
 
-想到这里，我们很容易就想到，在 spring bean 创建过程中很重要的两个方法：
+在 spring bean 创建过程中，有两个方法刚好复合这个场景：
 1. InstantiationAwareBeanPostProcessor.postProcessBeforeInstantiation(...)
 2. BeanPostProcessor.postProcessBeforeInitialization(...)
 
@@ -119,7 +119,7 @@ public class RemoteServiceTest {
 }
 ```
 ## 方案二：使用 postProcessBeforeInitialization
-方法在 bean 刚被创建完成之后，初始化（比如 设置属性或者调用 init-method）之前执行。
+方法在 bean 刚被创建完成之后，初始化（比如调用 init-method）之前执行。
 该方法参数为目标 bean 对应的 *bean* 和 *beanName*，默认返回是 bean 对象，不做任何处理。
 
 ### 实现代码
@@ -145,7 +145,7 @@ public class MockRemoteService2 implements RemoteService , InstantiationAwareBea
 参考方法一
 
 ## 总结
-1. 通过 bean 替换的方式来做 mock 还是挺巧妙
-2. 在当前场景下，两种替换方式等效的，基本上没有什么差别
-3. MockService 不能直接使用 *@Service* 注解，因为会有 bean 冲突，而且因为单测特殊性，本身也需要在不同 case 中指定mock数据
+1. 在当前场景下，两种替换方式等效的，基本上没有什么差别
+2. MockService 不能直接使用 *@Service* 注解，因为会有 bean 冲突，而且因为单测特殊性，本身也需要在不同 case 中指定mock数据
+3. 通过 bean 替换的方式来做 mock 还是挺巧妙
 
