@@ -2,7 +2,7 @@
 layout: post
 title: 记一次死锁的排查过程
 categories: database
-description: spring cloud feign 添加headers
+description: 非主键索引引起的死锁问题排查
 keywords: database, mysql, deadlock, index merge
 ---
 # 一次死锁的排查
