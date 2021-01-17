@@ -147,5 +147,7 @@ public class MockRemoteService2 implements RemoteService , InstantiationAwareBea
 ## 总结
 1. 在当前场景下，两种替换方式等效的，基本上没有什么差别
 2. MockService 不能直接使用 *@Service* 注解，因为会有 bean 冲突，而且因为单测特殊性，本身也需要在不同 case 中指定mock数据
-3. 通过 bean 替换的方式来做 mock 还是挺巧妙
+3. 在当前项目背景下，该方式比 Mockito 要简约很多
+4. 如果不想用 @Primary 注解，可以单独写一个MockService实现 remoteService，然后直接在替换时 new 出来即可
+5. 通过 bean 替换的方式来做 mock 还是挺巧妙
 
