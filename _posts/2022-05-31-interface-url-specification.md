@@ -5,6 +5,7 @@ categories: specification
 description: 接口路径设计规范
 keywords: 接口, 路径, 规范
 ---
+
 # 接口路径设计
 ## 背景
 1. 因网关直接对外，所以后端很多内部接口会在无意中被网关透传到公网。
