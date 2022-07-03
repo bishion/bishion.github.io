@@ -10,7 +10,7 @@ keywords: spring, swagger, knife4j
 
 项目使用 knife4j + swagger 作为文档管理工具, 在日常使用中, 发现一些不便之处:
 1. swagger 的配置属于静态信息, 跟系统配置放在一起, 不易维护
-2. knife4j 开箱即用, 默认生产环境开启, 有安全风险. 如果需要关闭, 需要显式指定配置：
+2. knife4j 开箱即用, 默认开启, 生产环境有安全风险. 如果需要关闭, 需要显式指定配置：
 ```yaml
 knife4j:
   enable: true
