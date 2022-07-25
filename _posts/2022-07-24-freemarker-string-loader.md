@@ -105,4 +105,4 @@ public MaybeMissingTemplate getTemplate(String name,...){
 # 解决方式
 1. 尽量避免使用路径作为 StringTemplateLoader.putTemplate() 中的 name 参数
 2. 如果做不到第1条，则 name 不要以 '/’ 开头
-3. 鉴于当前脚手架项目的特殊性，程序选择去掉将 *templateNameFormat.normalizeRootBasedName(text)* 的执行结果做为 name 参数
+3. 鉴于当前脚手架项目的特殊性，可以将 *templateNameFormat.normalizeRootBasedName(text)* 的执行结果做为 name 参数
