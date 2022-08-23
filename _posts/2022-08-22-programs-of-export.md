@@ -68,7 +68,7 @@ public class DataExportController {
     @Resource
     private Map<String, ExportService> exportServiceMap;
 
-    @PostMapping("/export/${exportType}")
+    @PostMapping("/export/{exportType}")
     public void export(@RequestBody Map<String,Object> param, @PathVariable("exportType") String exportType, HttpServletResponse response){
         ExportTypeEnum exportTypeEnum = EnumUtil.fromString(ExportTypeEnum.class, exportType);
         ExportService exportService = exportServiceMap.get(exportTypeEnum.getServiceName());
