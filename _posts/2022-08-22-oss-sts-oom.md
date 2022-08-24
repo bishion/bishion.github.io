@@ -113,7 +113,7 @@ keywords: oss, sts, oom
             .removalListener((RemovalListener<String, OSSClient>) notification -> notification.getValue().shutdown())
             .build();
 
-    // 提前十分钟就开始释放
+    // 提前十分钟就开始获取下一次的 token
     private static final Long EXPIRE_INTERVAL = 1000 * 60 * 10L;
     public OSSClient getClient() {
         if (expireTime - System.currentTimeMillis() < EXPIRE_INTERVAL) {
