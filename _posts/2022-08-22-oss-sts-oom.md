@@ -10,8 +10,8 @@ keywords: oss, sts, oom
 ## 背景
 每隔几天，应用就会重启一次，监控发现应用内存一直在涨。下图是连续两天的系统dump日志，我们发现 *DefaultServiceClient* 占用的内存涨势惊人：
 
-![image](/images/20220822-mat-oss-914.png)
-![image](/images/20220822-mat-oss-915.png)
+![第一天dump](/images/20220822-mat-oss-914.png)
+![第二天dump](/images/20220822-mat-oss-915.png)
 
 ## 问题原因
 看到问题的第一反应就是：难道 ossClient 并非线程安全？不过很快打消念头，程序运行几个月了并未异常。而且官方文档中也查到了，[OSS Java SDK 多线程安全](https://help.aliyun.com/document_detail/32024.html#section-flp-kbr-h92)。
@@ -23,7 +23,9 @@ keywords: oss, sts, oom
 1. 先调用服务方接口，获取一个临时访问的token, 以及过期时间
 2. 在过期时间内使用 token 创建一个ossClient
 3. 如果 token 过期，则再重新执行步骤 1
+
 该流程实现起来非常简单，上代码：
+
 > 原版代码，团队小朋友使用的是缓存，但是看着太复杂，这里简化处理
 
 ```java
