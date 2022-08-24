@@ -48,6 +48,7 @@ keywords: oss, sts, oom
         return ossClient;  
     }
 ```
+
 ## 存在的问题
 上述代码有个很大的问题，就是没有关闭已经过期的 ossClient，随着程序的运行，未释放的连接越来越多，进而程序 oom
 
@@ -67,7 +68,9 @@ keywords: oss, sts, oom
 如果不考虑那么精确的话，其实我们可以预估一个时间（比如 5 分钟），在获取新的连接后，旧的连接只给一个收尾时间，然后就关闭。
 
 所以，解决问题的核心思路变成了：如何在生成新的连接时，延迟一段时间关闭旧的连接？对的，延时队列。
+
 很多队列组件都可以支持该功能，JDK 自带了一个延时队列，DelayQueue，可以用用看：
+
 ```java
     // 使用延时队列，存放快过期的 OssClient
     private DelayQueue<OssClientDelayed> ossClientQueue = new DelayQueue<>();
