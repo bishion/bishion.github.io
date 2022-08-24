@@ -24,7 +24,8 @@ keywords: oss, sts, oom
 2. 在过期时间内使用 token 创建一个ossClient
 3. 如果 token 过期，则再重新执行步骤 1
 该流程实现起来非常简单，上代码：
-> 其实原版代码，团队小朋友使用的是缓存，但是写的异常复杂，不容易理解，我就重新写了一个。
+> 原版代码，团队小朋友使用的是缓存，但是看着太复杂，这里简化处理
+
 ```java
     // 记录当前在使用的 ossClient
     private OSSClient ossClient;
