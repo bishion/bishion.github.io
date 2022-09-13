@@ -5,7 +5,7 @@ categories: bug, concurrent
 description: 使用 update 的影响条数作为业务逻辑判断条数，会有 bug
 keywords: bug, useAffectedRows
 ---
-# 使用update 条数作为业务逻辑判断条件导致的 bug
+# 使用 update 条数作为业务逻辑判断条件导致的 bug
 
 ## 背景
 1. 一张用户信息扩展表中，有一个字段为 user_no ，业务要求一个用户只有一条扩展信息
