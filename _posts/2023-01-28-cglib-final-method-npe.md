@@ -1,11 +1,11 @@
 ---
 layout: post
-title: 模板模式中，子类自定义方法添加 @Transactional 导致的 NPE 问题
+title: cglib 代理 final 方法导致的空指针问题排查
 categories: bug, cglib, final, npe
 description: 使用 cglib 作为动态代理, 如果被代理类中有 final 方法，则容易出现空指针问题
 keywords: cglib, final
 ---
-# 模板方法添加 @Transactional 导致的 NPE 问题
+# cglib 代理 final 方法导致的空指针问题排查
 
 ## 背景
 1. 项目中使用了模板模式，模板方法加了个 final 以示专业
