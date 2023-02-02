@@ -44,13 +44,14 @@ MailUtil.send(account, CollUtil.newArrayList("hutool@foxmail.com"), "测试", "�
 ### 常见报错
 **Invalid Addresses: null**
 
-from 字段非标准邮箱格式
+原因：from 字段非标准邮箱格式
 
 **Connection or outbound has closed**
-from 字段并非真实的发件人邮箱
+原因：from 字段并非真实的发件人邮箱
 
 **535 Login Fail. Please enter your authorization code to login**
-user 填写错误，正确格式为：
+
+原因：user 填写错误，正确格式为：
 1. 发件人邮箱前缀（缺省值）
 2. 发件人邮箱
 
@@ -76,12 +77,17 @@ MailUtil.send(account, CollUtil.newArrayList("hutool@foxmail.com"), "测试", "�
 ### 常见报错
 **AuthenticationFailedException: 535 Error: authentication failed, system busy**
 
-user 字段未填写为发件人邮箱全称
+原因：user 字段未填写为发件人邮箱全称
 
 ## 总结
+
 ### 腾讯和飞书邮箱认证时，使用的字段不一样：
 1. 腾讯邮箱使用 from + pass 来作为认证方式
 2. 飞书邮箱使用 user + pass 来作为认证方式
+
 ### 飞书使用 from 字段作为发件人的名称
 1. 如果 from 是邮箱格式，则废弃不用，发件人姓名为邮箱登记名称
 2. 如果 from 是非邮箱格式，则直接作为发件人名称
+
+## 参考文献
+hutool 官网：https://hutool.cn/docs/#/extra/邮件工具-MailUtil
